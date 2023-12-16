@@ -1,0 +1,79 @@
+<!-- 
+  Clayton DeSimone
+  Java II Final Project
+  12/11/23 
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Bingo Host</title>
+  <!-- Using Bootsrap CSS from CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <h1>Host Draw</h1>
+  <h2 id="hostsname"></h2>
+  <div id="socketstatus-container">
+
+  <span id="connectionstatus1">***Chat message connection closed***<br></span>
+  <span id="connectionstatus2">***Number drawing connection closed***<br></span>
+  <span id="connectionstatus3">***Bingo message connection closed***<br></span>
+  <span id="connectionstatus4">***End/Restart game connection closed***<br></span>
+
+  <div id="reconnectbutton-container">
+    <button id="reconnectbutton">Reconnect</button>
+  </div><br>
+
+  <div id="playerlist-container">
+    <h2 id="playersheader"><a href="#" id="playersLink">Players:</a></h2>
+    <ul id="players"></ul>
+  </div>
+  
+  <div id="drawnnumber-container">
+    <label for="drawnumber"><br>Press To Draw a number: </label>
+    <button type="button" id="drawnumber" name="drawnumber" class="buttons">Draw</button><br>
+    <h2><span id="drawnspace"></span></h2>
+  </div>
+
+  <div id="bingomessage-container">
+    <div id="bingocheck"></div><br>
+    <h2><div id="bingowin"></div></h2><br>
+  </div>
+
+  <div id="endgame-container">
+    <span id="gameendresponse"></span>
+    <button type="button" id="gotohomepage">Return to Homepage</button><br><br>
+  </div>
+
+  <div id="chat-container">
+    <div id="chatmessage-container">
+        <input type="text" id="message-input" placeholder="Type your message...">
+        <button id="messagebutton">Send</button>
+    </div>
+    <div id="chat-messages"></div>
+  </div>
+
+  <div id="stopgame-container">
+    <label for="resetgame"><br><br>Press To Restart Game: </label>
+    <button type="button" id="resetgame" name="resetgame" class="buttons">RESET</button><br><br>
+  
+    <label for="endgame">Press To End Game: </label>
+    <button type="button" id="endgame" name="endgame" class="buttons">STOP</button>
+  </div>
+  
+  
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>  
+  <script src="host.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
+</body>
+
+</html>

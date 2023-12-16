@@ -1,0 +1,106 @@
+/* 
+  Clayton DeSimone
+  Java II Final Project
+  12/11/23 
+*/
+
+/* Common styles for body and heading */
+body {
+  background-color: #f8cf75;
+  font-family: 'Cinzel Decorative', cursive;
+  padding: 20px;
+}
+
+h3 {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+/* Style for form elements on Character Design and Quest Select pages */
+.designquestforms {
+  max-width: 500px;
+  margin: 0 auto;
+  background-color: #ffe4b5;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
+}
+
+/* Common styles for labels and form elements */
+label {
+  font-weight: bold;
+  font-size: 18px;
+  color: #8b4513;
+}
+
+.form-group {
+  margin-bottom: 20px; /* Adds space between form elements */
+}
+
+/* Style for error messages */
+.errormessages {
+  color: #062af5;
+  font-size: 16px;
+}
+
+/* Style for all Continue/Embark buttons */
+.continuebuttons {
+  display: block;
+  margin: 0 auto;
+  padding: 8px 14px;
+  background-color: #800000;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 20px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+/* Style for hovering over Continue/Embark buttons */
+.continuebuttons:hover {
+  background-color: #1e7504;
+}
+
+/* Styles for Bingo letters header */
+#column-headers {
+  display: flex;
+  justify-content: space-around;
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.column-header {
+  width: 20%;
+  text-align: center;
+}
+
+#gameendresponse {
+  font-weight: bold;
+  font-size: 20px;
+}
+
+/* Adjusts styles for screens smaller screens (phones) */
+@media (max-width: 768px) {
+  body {
+    font-size: 16px; /* Adjust the font size for better readability on small screens */
+  }
+
+  h3 {
+    font-size: 24px; /* Adjust the font size for better readability on mobile */
+  }
+
+  .designquestforms {
+    max-width: 100%; /* Adjust the max-width for better responsiveness on small screens */
+  }
+
+  /* Vendor prefixes for border-radius */
+  .designquestforms,
+  .continuebuttons {
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+  }
+}
