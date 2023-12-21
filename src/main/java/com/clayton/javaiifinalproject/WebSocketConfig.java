@@ -18,19 +18,23 @@ public class WebSocketConfig implements WebSocketConfigurer
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry)
 	{
         registry.addHandler(new WebSocketController(), "/websocket-endpoint")
-//                .setAllowedOrigins("http://bingo.consulogic.org:3000");
-        		.setAllowedOrigins("http://localhost:3000");
+//              .setAllowedOrigins("http://bingo.consulogic.org:3000");
+//        		.setAllowedOrigins("http://localhost:3000");
+        		.setAllowedOrigins("http://bingo.logiconsul.org:3000");
         
         registry.addHandler(new WebSocketController(), "/draw-win-endpoint")
 //				.setAllowedOrigins("http://bingo.consulogic.org:3000");
-        		.setAllowedOrigins("http://localhost:3000");
+//        		.setAllowedOrigins("http://localhost:3000");
+        		.setAllowedOrigins("http://bingo.logiconsul.org:3000");
         
         registry.addHandler(new WebSocketController(), "/win-message-endpoint")
 //				.setAllowedOrigins("http://bingo.consulogic.org:3000");
-        		.setAllowedOrigins("http://localhost:3000");
+//        		.setAllowedOrigins("http://localhost:3000");
+        		.setAllowedOrigins("http://bingo.logiconsul.org:3000");
         
         registry.addHandler(new WebSocketController(), "/game-end-endpoint")
 //				.setAllowedOrigins("http://bingo.consulogic.org:3000");
-				.setAllowedOrigins("http://localhost:3000");
+//				.setAllowedOrigins("http://localhost:3000");
+        		.setAllowedOrigins("http://bingo.logiconsul.org:3000");
     }
 }

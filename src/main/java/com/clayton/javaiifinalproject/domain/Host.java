@@ -42,18 +42,20 @@ public class Host
         
         currentDrawnNum = drawnLetter + " " + drawnNumber;
         
-        if (drawnNums.size() < 49)
-        {
-	        if(!drawnNums.contains(currentDrawnNum))
-	        {
-	        	drawnNums.add(currentDrawnNum);
-	        	gameSession.notifyPlayers(currentDrawnNum);
-	        	return currentDrawnNum;
-	        }
-	        else
-	        	return drawNumber();
-	        }
-        else
-        	return "All Numbers Called";
+//        if (drawnNums.size() < 49)
+//        {
+//	        if(!drawnNums.contains(currentDrawnNum))
+//	        {
+//	        	drawnNums.add(currentDrawnNum);
+//	        	gameSession.notifyPlayers(currentDrawnNum);
+//	        	return currentDrawnNum;
+//	        }
+//	        else
+//	        	return drawNumber();
+//	        }
+//        else
+//        	return "All Numbers Called";
+        
+        return currentDrawnNum;
     }
 }

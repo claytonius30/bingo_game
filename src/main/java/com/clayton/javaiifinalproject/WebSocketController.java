@@ -16,7 +16,8 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 
 //@CrossOrigin(origins = "http://bingo.consulogic.org:3000")
-@CrossOrigin(origins = "http://localhost:3000")
+//@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://bingo.logiconsul.org:3000")
 @Controller
 public class WebSocketController extends TextWebSocketHandler
 {
