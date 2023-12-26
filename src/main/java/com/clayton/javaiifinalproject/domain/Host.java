@@ -46,8 +46,8 @@ public class Host
 //        {
 //	        if(!drawnNums.contains(currentDrawnNum))
 //	        {
-//	        	drawnNums.add(currentDrawnNum);
-//	        	gameSession.notifyPlayers(currentDrawnNum);
+	        	drawnNums.add(currentDrawnNum);
+	        	gameSession.notifyPlayers(currentDrawnNum);
 //	        	return currentDrawnNum;
 //	        }
 //	        else
