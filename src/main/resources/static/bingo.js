@@ -14,7 +14,7 @@ $(function () {
         const config = await response.json();
     
         // Get the environment from the window location or any other source
-        const env = window.location.href.indexOf('146.190.162.34') > -1 ? 'production' : 'local';
+        const env = window.location.href.indexOf('http://bingo.consulogic.org') > -1 ? 'production' : 'local';
     
         // Return the config for the specified environment, default to local if not found
         return config[env] || config.local;

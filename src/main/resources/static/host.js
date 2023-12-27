@@ -16,10 +16,11 @@ $(function () {
     const config = await response.json();
 
     // Get the environment from the window location or any other source
-    const env = window.location.href.indexOf('146.190.162.34') > -1 ? 'production' : 'local';
+    const env = window.location.href.indexOf('http://bingo.consulogic.org') > -1 ? 'production' : 'local';
 
     if (env === 'production') {
-      wS = '146.190.162.34';
+      // wS = '146.190.162.34';
+      wS = 'bingo.consulogic.org';
     } else if (env === 'local') {
       wS = 'localhost:8080';
     }
