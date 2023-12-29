@@ -44,8 +44,6 @@ $(function () {
         if (hostNameInput !== "") {
           // Sends host name to server (creates a Host)
           $.post(`${backendUrl}/host/start-game`, { hostName: hostNameInput }, function (data) {
-          // $.post('http://146.190.162.34/host/start-game', { hostName: hostNameInput }, function (data) {
-          // $.post('http://localhost:8080/host/start-game', { hostName: hostNameInput }, function (data) {
             let gameResponse = data;
             if (gameResponse !== "A host with that name already exists. Please choose another name.") {
               console.log(`Start Game button: Game created with ID: ${gameResponse}`);
@@ -80,34 +78,17 @@ $(function () {
       let socket2 = new WebSocket(`ws://${wS}/draw-win-endpoint`);
       let socket3 = new WebSocket(`ws://${wS}/win-message-endpoint`);
       let socket4 = new WebSocket(`ws://${wS}/game-end-endpoint`);
-      // Initializes web sockets (for chat messages and draw numbers/bingo check respectively)
-      // let socket = new WebSocket('ws://146.190.162.34/websocket-endpoint');
-      // let socket2 = new WebSocket('ws://146.190.162.34/draw-win-endpoint');
-      // let socket3 = new WebSocket('ws://146.190.162.34/win-message-endpoint');
-      // let socket4 = new WebSocket('ws://146.190.162.34/game-end-endpoint');
-      // let socket = new WebSocket('ws://localhost:8080/websocket-endpoint');
-      // let socket2 = new WebSocket('ws://localhost:8080/draw-win-endpoint');
-      // let socket3 = new WebSocket('ws://localhost:8080/win-message-endpoint');
-      // let socket4 = new WebSocket('ws://localhost:8080/game-end-endpoint');
       
 
       $('#reconnectbutton').on("click", function () {
         if (socket.readyState === WebSocket.CLOSED) {
           socket = new WebSocket(`ws://${wS}/websocket-endpoint`);
-          // socket = new WebSocket('ws://146.190.162.34/websocket-endpoint');
-          // socket = new WebSocket('ws://localhost:8080/websocket-endpoint');
         } else if (socket2.readyState === WebSocket.CLOSED) {
           socket2 = new WebSocket(`ws://${wS}/draw-win-endpoint`);
-          // socket2 = new WebSocket('ws://146.190.162.34/draw-win-endpoint');
-          // socket2 = new WebSocket('ws://localhost:8080/draw-win-endpoint');
         } else if (socket3.readyState === WebSocket.CLOSED) {
           socket3 = new WebSocket(`ws://${wS}/win-message-endpoint`);
-          // socket3 = new WebSocket('ws://146.190.162.34/win-message-endpoint');
-          // socket3 = new WebSocket('ws://localhost:8080/win-message-endpoint');
         } else if (socket4.readyState === WebSocket.CLOSED) {
           socket4 = new WebSocket(`ws://${wS}/game-end-endpoint`);
-          // socket4 = new WebSocket('ws://146.190.162.34/game-end-endpoint');
-          // socket4 = new WebSocket('ws://localhost:8080/game-end-endpoint');
         }
       });
 
@@ -202,8 +183,6 @@ $(function () {
       // Sends a draw number
       $('#drawnumber').on('click', function () {
         $.get(`${backendUrl}/host/draw-number?hostName=${hostName}&gameId=${gameId}`, function(data) {
-        // $.get(`http://146.190.162.34/host/draw-number?hostName=${hostName}&gameId=${gameId}`, function(data) {
-        // $.get(`http://localhost:8080/host/draw-number?hostName=${hostName}&gameId=${gameId}`, function(data) {
           let drawnNumber = data;
           if (drawnNumber !== "") {
 
@@ -226,8 +205,6 @@ $(function () {
         $('#drawnspace').empty();
         count = 1;
         $.get(`${backendUrl}/host/retart-game?hostName=${hostName}&gameId=${gameId}`, function(data) {
-        // $.get(`http://146.190.162.34/host/retart-game?hostName=${hostName}&gameId=${gameId}`, function(data) {
-        // $.get(`http://localhost:8080/host/retart-game?hostName=${hostName}&gameId=${gameId}`, function(data) {
           let resetResponse = data;
           $('#bingowin').prepend(resetResponse);
           setTimeout( function() {
@@ -268,8 +245,6 @@ $(function () {
             // Closes socket3 after socket is closed
             socket3.onclose = function (event) {
               $.get(`${backendUrl}/host/stop-game?hostName=${hostName}&gameId=${gameId}`, function(data) {
-              // $.get(`http://146.190.162.34/host/stop-game?hostName=${hostName}&gameId=${gameId}`, function(data) {
-              // $.get(`http://localhost:8080/host/stop-game?hostName=${hostName}&gameId=${gameId}`, function(data) {
                 let response = data;
                 $('#gameendresponse').text(response);
                 $('#endgame-container').show();
@@ -299,8 +274,6 @@ $(function () {
       $("#playersLink").on("click", function(event) {
         event.preventDefault();
         $.get(`${backendUrl}/host/players?hostName=${hostName}&gameId=${gameId}`, function(data) {
-        // $.get(`http://146.190.162.34/host/players?hostName=${hostName}&gameId=${gameId}`, function(data) {
-        // $.get(`http://localhost:8080/host/players?hostName=${hostName}&gameId=${gameId}`, function(data) {
           let playerNames = data;
           if (playerNames.length !== 0) {
             console.log(`Players link: ${playerNames}`);

@@ -1,0 +1,70 @@
+<!-- 
+  Clayton DeSimone
+  Java II Final Project
+  12/11/23 
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Bingo Player Card</title>
+  <!-- Using Bootstrap CSS from CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <h1>Player Card</h1>
+  
+  <h2 id="playersname"></h2>
+  <span id="hostsname"></span><br>
+ 
+  <span id="connectionstatus1">***Chat message connection closed***<br></span>
+  <span id="connectionstatus2">***Number drawing connection closed***<br></span>
+  <span id="connectionstatus3">***Bingo message connection closed***<br></span>
+  <span id="connectionstatus4">***End/Restart game connection closed***<br></span>
+
+  <div id="reconnectbutton-container">
+    <button id="reconnectbutton">Reconnect<br></button>
+  </div>
+
+  <div id="drawnnumber-container">
+    <h4>Drawn Number: <span id="drawnspace"></span></h4><br>
+  </div>
+  <div id="endgame-container"><br>
+    <span id="gameendresponse"></span>
+    <button type="button" id="gotohomepage">Return to Homepage</button>
+  </div>
+
+  <div id="card-container">
+    <canvas id="bingo-card"></canvas><br><br>
+  </div>
+
+  <div id="bingomessage-container">
+    <label for="bingobutton">Press when there's a: </label>
+    <button type="button" id="bingobutton" name="bingobutton" class="buttons">BINGO</button>
+    <div id="bingocheck"></div><br>
+    <h2><div id="bingowin"></div></h2><br>
+  </div>
+
+  <div id="chat-container">
+    <div id="chatmessage-container">
+        <input type="text" id="message-input" placeholder="Type your message...">
+        <button id="messagebutton">Send</button>
+    </div>
+    <div id="chat-messages"></div>
+  </div>
+
+  
+
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>  
+  <script src="player.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
+</body>
+
+</html>

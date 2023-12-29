@@ -13,9 +13,9 @@ import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry
 @EnableWebSocket
 public class WebSocketConfig implements WebSocketConfigurer
 {
-//	String wsEndpoint = "http://localhost:3000";
+	String wsEndpoint = "http://localhost:3000";
+//	String wsEndpoint = "http://bingo.consulogic.org:3000";
 //	String wsEndpoint = "http://146.190.162.34:3000";
-	String wsEndpoint = "http://bingo.consulogic.org:3000";
 	
 	// Registers 4 web socket end points associated with web socket controller
 	@Override

@@ -45,8 +45,6 @@ $(function () {
         if (playerNameInput !== "" && hostNameInput !== "") {
           // Sends player and host name to server (creates a Player)
           $.post(`${backendUrl}/player/join-game`, { playerName: playerNameInput, hostName: hostNameInput }, function (data) {
-          // $.post('http://146.190.162.34/player/join-game', { playerName: playerNameInput, hostName: hostNameInput }, function (data) {
-          // $.post('http://localhost:8080/player/join-game', { playerName: playerNameInput, hostName: hostNameInput }, function (data) {
             let joinResponse = data;
             if (joinResponse !== "Host not found" && joinResponse !== "A player with that name already exists. Please choose another name.") {
               console.log(`Join Game button: Game joined with ID: ${joinResponse}`);
@@ -82,34 +80,17 @@ $(function () {
       let socket2 = new WebSocket(`ws://${wS}/draw-win-endpoint`);
       let socket3 = new WebSocket(`ws://${wS}/win-message-endpoint`);
       let socket4 = new WebSocket(`ws://${wS}/game-end-endpoint`);
-      // Initializes web sockets (for chat messages and draw numbers/bingo check respectively)
-      // let socket = new WebSocket('ws://146.190.162.34/websocket-endpoint');
-      // let socket2 = new WebSocket('ws://146.190.162.34/draw-win-endpoint');
-      // let socket3 = new WebSocket('ws://146.190.162.34/win-message-endpoint');
-      // let socket4 = new WebSocket('ws://146.190.162.34/game-end-endpoint');
-      // let socket = new WebSocket('ws://localhost:8080/websocket-endpoint');
-      // let socket2 = new WebSocket('ws://localhost:8080/draw-win-endpoint');
-      // let socket3 = new WebSocket('ws://localhost:8080/win-message-endpoint');
-      // let socket4 = new WebSocket('ws://localhost:8080/game-end-endpoint');
-      
 
+      
       $('#reconnectbutton').on("click", function () {
         if (socket.readyState === WebSocket.CLOSED) {
           socket = new WebSocket(`ws://${wS}/websocket-endpoint`);
-          // socket = new WebSocket('ws://146.190.162.34/websocket-endpoint');
-          // socket = new WebSocket('ws://localhost:8080/websocket-endpoint');
         } else if (socket2.readyState === WebSocket.CLOSED) {
           socket2 = new WebSocket(`ws://${wS}/draw-win-endpoint`);
-          // socket2 = new WebSocket('ws://146.190.162.34/draw-win-endpoint');
-          // socket2 = new WebSocket('ws://localhost:8080/draw-win-endpoint');
         } else if (socket3.readyState === WebSocket.CLOSED) {
           socket3 = new WebSocket(`ws://${wS}/win-message-endpoint`);
-          // socket3 = new WebSocket('ws://146.190.162.34/win-message-endpoint');
-          // socket3 = new WebSocket('ws://localhost:8080/win-message-endpoint');
         } else if (socket4.readyState === WebSocket.CLOSED) {
           socket4 = new WebSocket(`ws://${wS}/game-end-endpoint`);
-          // socket4 = new WebSocket('ws://146.190.162.34/game-end-endpoint');
-          // socket4 = new WebSocket('ws://localhost:8080/game-end-endpoint');
         }
       });
       
@@ -207,8 +188,6 @@ $(function () {
       canvas.addEventListener('click', (event) => {
         // Retrieves drawn number from server
         $.get(`${backendUrl}/player/get-draw?hostName=${hostName}&playerName=${playerName}`, function (data1) {
-        // $.get(`http://146.190.162.34/player/get-draw?hostName=${hostName}&playerName=${playerName}`, function (data1) {
-        // $.get(`http://localhost:8080/player/get-draw?hostName=${hostName}&playerName=${playerName}`, function (data1) {
           let drawnNumber = data1;
 
           // Calculate card cell size based on canvas dimensions
@@ -244,8 +223,6 @@ $(function () {
 
           // Retrieves player's card from server
           $.get(`${backendUrl}/player/bingo-card?hostName=${hostName}&playerName=${playerName}`, function (data2) {
-          // $.get(`http://146.190.162.34/player/bingo-card?hostName=${hostName}&playerName=${playerName}`, function (data2) {
-          // $.get(`http://localhost:8080/player/bingo-card?hostName=${hostName}&playerName=${playerName}`, function (data2) {
             let bingoNumbers = data2;
 
             // Adds parenthesis to clicked number
@@ -254,8 +231,6 @@ $(function () {
 
               // Sends updated (marked) card to server
               fetch(`${backendUrl}/player/update-card?hostName=${hostName}&playerName=${playerName}`, {
-              // fetch(`http://146.190.162.34/player/update-card?hostName=${hostName}&playerName=${playerName}`, {
-              // fetch(`http://localhost:8080/player/update-card?hostName=${hostName}&playerName=${playerName}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -299,8 +274,6 @@ $(function () {
       // Sends Bingo check message
       $('#bingobutton').on('click', function () {
         $.get(`${backendUrl}/player/verify-bingo?hostName=${hostName}&playerName=${playerName}`, function (data) {
-        // $.get(`http://146.190.162.34/player/verify-bingo?hostName=${hostName}&playerName=${playerName}`, function (data) {
-        // $.get(`http://localhost:8080/player/verify-bingo?hostName=${hostName}&playerName=${playerName}`, function (data) {
           let bingoResponse = data;
 
           const message = {
@@ -432,16 +405,12 @@ $(function () {
       // Gets Bingo card numbers from server
       // function getCard(hostName, playerName) {
       //   $.get(`${backendUrl}/player/bingo-card?hostName=${hostName}&playerName=${playerName}`, function (data) {
-      //   // $.get(`http://146.190.162.34/player/bingo-card?hostName=${hostName}&playerName=${playerName}`, function (data) {
-      //   // $.get(`http://localhost:8080/player/bingo-card?hostName=${hostName}&playerName=${playerName}`, function (data) {
       //     let bingoNumbers = data;
       //     drawBingoCard(bingoNumbers);
       //   });
       // }
       function getCard(hostName, playerName) {
         fetch(`${backendUrl}/player/bingo-card?hostName=${hostName}&playerName=${playerName}`)
-        // fetch(`http://146.190.162.34/player/bingo-card?hostName=${hostName}&playerName=${playerName}`)
-        // fetch(`http://localhost:8080/player/bingo-card?hostName=${hostName}&playerName=${playerName}`)
           .then(response => response.json())
               // if (!response.ok) {
               //     throw new Error(`HTTP error! Status: ${response.status}`);
@@ -459,8 +428,6 @@ $(function () {
       // Displays the current drawn number from server
       function updateDrawnNumber(hostName, playerName) {
         $.get(`${backendUrl}/player/get-draw?hostName=${hostName}&playerName=${playerName}`, function (data) {
-        // $.get(`http://146.190.162.34/player/get-draw?hostName=${hostName}&playerName=${playerName}`, function (data) {
-        // $.get(`http://localhost:8080/player/get-draw?hostName=${hostName}&playerName=${playerName}`, function (data) {
           let drawnNumber = data;
           if (drawnNumber !== null) {
             $('#drawnspace').text(drawnNumber);

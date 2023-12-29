@@ -53,8 +53,6 @@ $(function () {
             let verifyMessage = "";
 
             fetch(`${backendUrl}/getBingoNumbers`)
-            // fetch('http://localhost:8080/getBingoNumbers') // Adjust the URL to match your endpoint
-            // fetch('http://146.190.162.34/getBingoNumbers')
                 .then(response => response.json())
                 .then(data => {
                     bingoNumbers = data; // Assign the received data to the bingoNumbers variable
@@ -101,8 +99,6 @@ $(function () {
 
                 //Sends clicked card number to the server
                 fetch(`${backendUrl}/recieveClickedNumber`, {
-                // fetch('http://146.190.162.34/recieveClickedNumber', {
-                // fetch('http://localhost:8080/recieveClickedNumber', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -117,8 +113,6 @@ $(function () {
 
                 // Sends updated card data to the server
                 fetch(`${backendUrl}/updateBingoNums`, {
-                // fetch('http://146.190.162.34/updateBingoNums', {
-                // fetch('http://localhost:8080/updateBingoNums', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -138,8 +132,6 @@ $(function () {
             $('#drawnumber').on('click', function () {
                 $('#bingocheck').text("");
                 fetch(`${backendUrl}/getDrawnLetNum`)
-                // fetch('http://146.190.162.34/getDrawnLetNum')
-                // fetch('http://localhost:8080/getDrawnLetNum')
                 .then(response => response.json())
                 .then(data => {
                     drawnNumbers = data;
@@ -155,8 +147,6 @@ $(function () {
             $('#bingobutton').on('click', function () {
                 if (currentDrawnNum !== "") {
                     fetch(`${backendUrl}/verifyBingo`, {
-                    // fetch('http://146.190.162.34/verifyBingo', {
-                    // fetch('http://localhost:8080/verifyBingo', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
