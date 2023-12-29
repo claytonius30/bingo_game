@@ -56,6 +56,40 @@ $(function () {
               console.log(`Join Game button: ${joinResponse}`);
             }
           });
+
+          // const joinGameData = {
+          //   playerName: playerNameInput,
+          //   hostName: hostNameInput
+          // };
+
+          // fetch(`${backendUrl}/player/join-game`, {
+          //   method: 'POST',
+          //   headers: {
+          //     'Content-Type': 'application/json'
+          //   },
+          //   body: JSON.stringify(joinGameData)
+          // })
+          //   .then(response => {
+          //     if (!response.ok) {
+          //       throw new Error('Network response was not ok');
+          //     }
+          //     return response.json();
+          //   })
+          //   .then(data => {
+          //     let joinResponse = data;
+          //     if (joinResponse !== "Host not found" && joinResponse !== "A player with that name already exists. Please choose another name.") {
+          //       console.log(`Join Game button: Game joined with ID: ${joinResponse}`);
+          //       // Updates the URL with the host name and player name
+          //       const newUrl = `${window.location.origin}/player-card.html?hostName=${hostNameInput}&playerName=${playerNameInput}`;
+          //       window.location.href = newUrl;
+          //     } else {
+          //       $('#joingamecheck').text(joinResponse);
+          //       console.log(`Join Game button: ${joinResponse}`);
+          //     }
+          //   })
+          //   .catch(error => {
+          //     console.error('Error:', error);
+          //   });
         } else {
           $('#joingamecheck').text("Please enter your name and a host name");
           console.log("Join Game button: Please enter your name and a host name");
@@ -185,66 +219,154 @@ $(function () {
       getCard(hostName, playerName);
 
       // Adds click event listener to the canvas
+      // canvas.addEventListener('click', (event) => {
+      //   // Retrieves drawn number from server
+      //   $.get(`${backendUrl}/player/get-draw?hostName=${hostName}&playerName=${playerName}`, function (data1) {
+      //     let drawnNumber = data1;
+
+      //     // Calculate card cell size based on canvas dimensions
+      //     const cellSize = canvas.width / 5;
+      //     const x = event.offsetX;
+      //     const y = event.offsetY;
+      //     const clickedRow = Math.floor(y / cellSize - 1);
+      //     const clickedCol = Math.floor(x / cellSize);
+
+      //     // Checks if letter is clicked instead of number
+      //     if (clickedRow < 0 | (clickedRow == 2 & clickedCol == 2)) {
+      //         // Clicked on the letters, do nothing
+      //         return;
+      //     }
+          
+      //     // Assigns drawn letter and number
+      //     let letty = drawnNumber.slice(0, 1);
+      //     let numby = parseInt(drawnNumber.slice(2, 4));
+      //     let convLet = null;
+
+      //     // Converts drawn bingo letter to number
+      //     if (letty == 'B') {
+      //         convLet = 0;
+      //     } else if (letty == 'I') {
+      //         convLet = 1;
+      //     } else if (letty == 'N') {
+      //         convLet = 2;
+      //     } else if (letty == 'G') {
+      //         convLet = 3;
+      //     } else if (letty == 'O') {
+      //         convLet = 4;
+      //     }
+
+      //     // Retrieves player's card from server
+      //     $.get(`${backendUrl}/player/bingo-card?hostName=${hostName}&playerName=${playerName}`, function (data2) {
+      //       let bingoNumbers = data2;
+
+      //       // Adds parenthesis to clicked number
+      //       if (clickedCol === convLet && bingoNumbers[clickedRow][clickedCol] === numby) {
+      //         bingoNumbers[clickedRow][clickedCol] = '(' + bingoNumbers[clickedRow][clickedCol] + ')';
+
+      //         // Sends updated (marked) card to server
+      //         fetch(`${backendUrl}/player/update-card?hostName=${hostName}&playerName=${playerName}`, {
+      //           method: 'POST',
+      //           headers: {
+      //               'Content-Type': 'application/json'
+      //           },
+      //           body: JSON.stringify(bingoNumbers)
+      //         })
+      //         .then(response => response.json())
+      //         .then(data3 => {
+      //             let updatedBingoNumbers = data3;
+      //             drawBingoCard(updatedBingoNumbers);
+      //         });
+      //       }
+      //     });
+      //   });
+      // });
+
       canvas.addEventListener('click', (event) => {
-        // Retrieves drawn number from server
-        $.get(`${backendUrl}/player/get-draw?hostName=${hostName}&playerName=${playerName}`, function (data1) {
-          let drawnNumber = data1;
+        const cellSize = canvas.width / 5;
+            const x = event.offsetX;
+            const y = event.offsetY;
+            const clickedRow = Math.floor(y / cellSize - 1);
+            const clickedCol = Math.floor(x / cellSize);
 
-          // Calculate card cell size based on canvas dimensions
-          const cellSize = canvas.width / 5;
-          const x = event.offsetX;
-          const y = event.offsetY;
-          const clickedRow = Math.floor(y / cellSize - 1);
-          const clickedCol = Math.floor(x / cellSize);
-
-          // Checks if letter is clicked instead of number
-          if (clickedRow < 0 | (clickedRow == 2 & clickedCol == 2)) {
+            // Checks if letter is clicked instead of number
+            if (clickedRow < 0 || (clickedRow === 2 && clickedCol === 2)) {
+              
               // Clicked on the letters, do nothing
               return;
-          }
-          
-          // Assigns drawn letter and number
-          let letty = drawnNumber.slice(0, 1);
-          let numby = parseInt(drawnNumber.slice(2, 4));
-          let convLet = null;
-
-          // Converts drawn bingo letter to number
-          if (letty == 'B') {
-              convLet = 0;
-          } else if (letty == 'I') {
-              convLet = 1;
-          } else if (letty == 'N') {
-              convLet = 2;
-          } else if (letty == 'G') {
-              convLet = 3;
-          } else if (letty == 'O') {
-              convLet = 4;
-          }
-
-          // Retrieves player's card from server
-          $.get(`${backendUrl}/player/bingo-card?hostName=${hostName}&playerName=${playerName}`, function (data2) {
-            let bingoNumbers = data2;
-
-            // Adds parenthesis to clicked number
-            if (clickedCol === convLet && bingoNumbers[clickedRow][clickedCol] === numby) {
-              bingoNumbers[clickedRow][clickedCol] = '(' + bingoNumbers[clickedRow][clickedCol] + ')';
-
-              // Sends updated (marked) card to server
-              fetch(`${backendUrl}/player/update-card?hostName=${hostName}&playerName=${playerName}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(bingoNumbers)
-              })
-              .then(response => response.json())
-              .then(data3 => {
-                  let updatedBingoNumbers = data3;
-                  drawBingoCard(updatedBingoNumbers);
-              });
             }
+        // Retrieves drawn number from server
+        fetch(`${backendUrl}/player/get-draw?hostName=${hostName}&playerName=${playerName}`)
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.json();
+          })
+          // .then(response => response.json())
+          .then(data1 => {
+            let drawnNumber = data1[0];
+            console.log("STEP 1 canvas listener");
+            // Calculate card cell size based on canvas dimensions
+            
+            
+            
+            
+            console.log("STEP XXXXXXXXXXXXXXXXXXX canvas listener");
+            
+            // Assigns drawn letter and number
+            let letty = drawnNumber.slice(0, 1);
+            let numby = parseInt(drawnNumber.slice(2, 4));
+            let convLet = null;
+      
+            // Converts drawn bingo letter to number
+            if (letty === 'B') {
+              convLet = 0;
+            } else if (letty === 'I') {
+              convLet = 1;
+            } else if (letty === 'N') {
+              convLet = 2;
+            } else if (letty === 'G') {
+              convLet = 3;
+            } else if (letty === 'O') {
+              convLet = 4;
+            }
+      
+            
+            // Retrieves player's card from server
+            fetch(`${backendUrl}/player/bingo-card?hostName=${hostName}&playerName=${playerName}`)
+              .then(response => {
+                if (!response.ok) {
+                  throw new Error('Network response was not ok');
+                }
+                return response.json();
+              })
+              .then(data2 => {
+                let bingoNumbers = data2;
+                console.log("STEP 2 canvas listener");
+                // Adds parenthesis to clicked number
+                if (clickedCol === convLet && bingoNumbers[clickedRow][clickedCol] === numby) {
+                  bingoNumbers[clickedRow][clickedCol] = `(${bingoNumbers[clickedRow][clickedCol]})`;
+      
+                  // Sends updated (marked) card to server
+                  fetch(`${backendUrl}/player/update-card?hostName=${hostName}&playerName=${playerName}`, {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(bingoNumbers)
+                  })
+                    .then(response => response.json())
+                    .then(data3 => {
+                      let updatedBingoNumbers = data3;
+                      console.log("STEP 3 canvas listener");
+                      drawBingoCard(updatedBingoNumbers);
+                    });
+                }
+              });
+          })
+          .catch(error => {
+            console.error('Error:', error);
           });
-        });
       });
       
       // Sends chat message
@@ -394,11 +516,11 @@ $(function () {
 
         // Displays Bingo card numbers
         for (let row = 0; row < bingoNumbers.length; row++) {
-            for (let col = 0; col < bingoNumbers[row].length; col++) {
-                // Draw cell
-                ctx.strokeRect(col * cellSize, (row + 1) * cellSize, cellSize, cellSize);
-                ctx.fillText(bingoNumbers[row][col].toString(), col * cellSize + cellSize / 2, (row + 1) * cellSize + cellSize / 2);
-            }
+          for (let col = 0; col < bingoNumbers[row].length; col++) {
+              // Draw cell
+              ctx.strokeRect(col * cellSize, (row + 1) * cellSize, cellSize, cellSize);
+              ctx.fillText(bingoNumbers[row][col].toString(), col * cellSize + cellSize / 2, (row + 1) * cellSize + cellSize / 2);
+          }
         }
       }
 

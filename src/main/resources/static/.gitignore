@@ -1,0 +1,9 @@
+# Ignore configuration files
+config.json
+
+/target/
+/.classpath
+/.project
+/.settings/
+/*.iml
+*.log

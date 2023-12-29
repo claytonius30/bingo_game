@@ -163,9 +163,14 @@ public class BingoController
 	@GetMapping("/player/get-draw")
     public Object getDrawNumber(@RequestParam String hostName, @RequestParam String playerName)
 	{
+		// Must be in array to be accepted as JSON data
+		List<Object> drawnNums = new ArrayList<>();
+		
 		GameSession gameSession = bingoService.findGameSessionByHost(hostName);
 		Object drawnNumber = gameSession.findPlayer(playerName).getDrawnNumber();
-		return drawnNumber;
+		drawnNums.add(drawnNumber);
+		return drawnNums;
+//		return drawnNumber;
 	}
 	
 	// Updates player's card with markings
