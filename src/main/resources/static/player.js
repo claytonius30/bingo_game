@@ -184,24 +184,25 @@ $(function () {
       // Using hostName and playerName to fetch and display the player's card
       getCard(hostName, playerName);
 
+      // This code needed to be added BEFORE the get request for draw number in order for FireFox to update player card
       // Adds click event listener to the canvas
       canvas.addEventListener('click', (event) => {
+        // Calculate card cell size based on canvas dimensions
+        const cellSize = canvas.width / 5;
+        const x = event.offsetX;
+        const y = event.offsetY;
+        const clickedRow = Math.floor(y / cellSize - 1);
+        const clickedCol = Math.floor(x / cellSize);
+
+        // Checks if letter is clicked instead of number
+        if (clickedRow < 0 | (clickedRow == 2 & clickedCol == 2)) {
+            // Clicked on the letters, do nothing
+            return;
+        }
+
         // Retrieves drawn number from server
         $.get(`${backendUrl}/player/get-draw?hostName=${hostName}&playerName=${playerName}`, function (data1) {
           let drawnNumber = data1;
-
-          // Calculate card cell size based on canvas dimensions
-          const cellSize = canvas.width / 5;
-          const x = event.offsetX;
-          const y = event.offsetY;
-          const clickedRow = Math.floor(y / cellSize - 1);
-          const clickedCol = Math.floor(x / cellSize);
-
-          // Checks if letter is clicked instead of number
-          if (clickedRow < 0 | (clickedRow == 2 & clickedCol == 2)) {
-              // Clicked on the letters, do nothing
-              return;
-          }
           
           // Assigns drawn letter and number
           let letty = drawnNumber.slice(0, 1);
