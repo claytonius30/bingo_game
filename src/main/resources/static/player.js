@@ -107,7 +107,8 @@ $(function () {
         console.log("First WebSocket connection closed:", event);
         $('#chatmessage-container').hide();
         $('#connectionstatus1').show();
-        $('#reconnectbutton').show();
+        // $('#reconnectbutton').show();
+        $('#endgame-container').show();
       });
 
       // Second web socket connection opened (draw numbers, notify host of joined players)
@@ -123,7 +124,8 @@ $(function () {
         console.log("Second WebSocket connection closed:", event);
         $('#drawnnumber-container').hide();
         $('#connectionstatus2').show();
-        $('#reconnectbutton').show();      
+        // $('#reconnectbutton').show();
+        $('#endgame-container').show();
       });
 
       // Third web socket connection opened (bingo check messages)
@@ -139,7 +141,8 @@ $(function () {
         console.log("Third WebSocket connection closed:", event);
         $('#bingomessage-container').hide();
         $('#connectionstatus3').show();
-        $('#reconnectbutton').show();      
+        // $('#reconnectbutton').show();
+        $('#endgame-container').show();
       });
 
       // Fourth web socket connection opened (end/restart game)
@@ -153,7 +156,8 @@ $(function () {
       socket4.addEventListener('close', (event) => {
         console.log("Fourth WebSocket connection closed:", event);
         $('#connectionstatus4').show();
-        $('#reconnectbutton').show();
+        // $('#reconnectbutton').show();
+        $('#endgame-container').show();
       });
 
       // Sends notification to host that player joined
@@ -203,48 +207,54 @@ $(function () {
         // Retrieves drawn number from server
         $.get(`${backendUrl}/player/get-draw?hostName=${hostName}&playerName=${playerName}`, function (data1) {
           let drawnNumber = data1;
+          // Added for new draw number format
+          if (drawnNumber === "All numbers drawn.") {
+            displayNumber(drawnNumber);
+          } else {
+
           
-          // Assigns drawn letter and number
-          let letty = drawnNumber.slice(0, 1);
-          let numby = parseInt(drawnNumber.slice(2, 4));
-          let convLet = null;
+            // Assigns drawn letter and number
+            let letty = drawnNumber.slice(0, 1);
+            let numby = parseInt(drawnNumber.slice(2, 4));
+            let convLet = null;
 
-          // Converts drawn bingo letter to number
-          if (letty == 'B') {
-              convLet = 0;
-          } else if (letty == 'I') {
-              convLet = 1;
-          } else if (letty == 'N') {
-              convLet = 2;
-          } else if (letty == 'G') {
-              convLet = 3;
-          } else if (letty == 'O') {
-              convLet = 4;
-          }
-
-          // Retrieves player's card from server
-          $.get(`${backendUrl}/player/bingo-card?hostName=${hostName}&playerName=${playerName}`, function (data2) {
-            let bingoNumbers = data2;
-
-            // Adds parenthesis to clicked number
-            if (clickedCol === convLet && bingoNumbers[clickedRow][clickedCol] === numby) {
-              bingoNumbers[clickedRow][clickedCol] = '(' + bingoNumbers[clickedRow][clickedCol] + ')';
-
-              // Sends updated (marked) card to server
-              fetch(`${backendUrl}/player/update-card?hostName=${hostName}&playerName=${playerName}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(bingoNumbers)
-              })
-              .then(response => response.json())
-              .then(data3 => {
-                  let updatedBingoNumbers = data3;
-                  drawBingoCard(updatedBingoNumbers);
-              });
+            // Converts drawn bingo letter to number
+            if (letty == 'B') {
+                convLet = 0;
+            } else if (letty == 'I') {
+                convLet = 1;
+            } else if (letty == 'N') {
+                convLet = 2;
+            } else if (letty == 'G') {
+                convLet = 3;
+            } else if (letty == 'O') {
+                convLet = 4;
             }
-          });
+
+            // Retrieves player's card from server
+            $.get(`${backendUrl}/player/bingo-card?hostName=${hostName}&playerName=${playerName}`, function (data2) {
+              let bingoNumbers = data2;
+
+              // Adds parenthesis to clicked number
+              if (clickedCol === convLet && bingoNumbers[clickedRow][clickedCol] === numby) {
+                bingoNumbers[clickedRow][clickedCol] = '(' + bingoNumbers[clickedRow][clickedCol] + ')';
+
+                // Sends updated (marked) card to server
+                fetch(`${backendUrl}/player/update-card?hostName=${hostName}&playerName=${playerName}`, {
+                  method: 'POST',
+                  headers: {
+                      'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify(bingoNumbers)
+                })
+                .then(response => response.json())
+                .then(data3 => {
+                    let updatedBingoNumbers = data3;
+                    drawBingoCard(updatedBingoNumbers);
+                });
+              }
+            });
+          }
         });
       });
       

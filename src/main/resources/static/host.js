@@ -105,7 +105,8 @@ $(function () {
         console.log("First WebSocket connection closed:", event);
         $('#chatmessage-container').hide();
         $('#connectionstatus1').show();
-        $('#reconnectbutton').show();
+        // $('#reconnectbutton').show();
+        $('#endgame-container').show();
       });
 
       // Second web socket connection opened (draw numbers, notify host of joined players)
@@ -121,7 +122,8 @@ $(function () {
         console.log("Second WebSocket connection closed:", event);
         $('#drawnnumber-container').hide();
         $('#connectionstatus2').show();
-        $('#reconnectbutton').show();      
+        // $('#reconnectbutton').show();
+        $('#endgame-container').show();   
       });
 
       // Third web socket connection opened (bingo check messages)
@@ -137,7 +139,8 @@ $(function () {
         console.log("Third WebSocket connection closed:", event);
         $('#bingomessage-container').hide();
         $('#connectionstatus3').show();
-        $('#reconnectbutton').show();      
+        // $('#reconnectbutton').show();
+        $('#endgame-container').show();   
       });
 
       // Fourth web socket connection opened (end/restart game)
@@ -153,7 +156,8 @@ $(function () {
         console.log("Fourth WebSocket connection closed:", event);
         $('#stopgame-container').hide();
         $('#connectionstatus4').show();
-        $('#reconnectbutton').show();
+        // $('#reconnectbutton').show();
+        $('#endgame-container').show();
       });
 
       // Sends chat message

@@ -82,6 +82,12 @@ label {
   font-size: 20px;
 }
 
+/* Styles for drawn number */
+#drawnspace {
+  font-weight: bold;
+  font-size: 40px;
+}
+
 /* Adjusts styles for screens smaller screens (phones) */
 @media (max-width: 768px) {
   body {
