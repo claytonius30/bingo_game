@@ -66,7 +66,7 @@ $(function () {
       console.log("Player Card page loaded");
 
       $('#endgame-container').hide();
-      $('#reconnectbutton-container').show();
+      // $('#reconnectbutton-container').show();
 
       // Assigns host and player names from URL
       const urlParams = new URLSearchParams(window.location.search);
@@ -188,9 +188,10 @@ $(function () {
       // Using hostName and playerName to fetch and display the player's card
       getCard(hostName, playerName);
 
-      // This code needed to be added BEFORE the get request for draw number in order for FireFox to update player card
+      
       // Adds click event listener to the canvas
       canvas.addEventListener('click', (event) => {
+        // This code needed to be added BEFORE the get request for draw number in order for FireFox to update player card
         // Calculate card cell size based on canvas dimensions
         const cellSize = canvas.width / 5;
         const x = event.offsetX;
@@ -206,53 +207,59 @@ $(function () {
 
         // Retrieves drawn number from server
         $.get(`${backendUrl}/player/get-draw?hostName=${hostName}&playerName=${playerName}`, function (data1) {
-          let drawnNumber = data1;
+          // let drawnNumber = data1;
+          let drawNumbers = data1;
           // Added for new draw number format
-          if (drawnNumber === "All numbers drawn.") {
-            displayNumber(drawnNumber);
+          // if (drawnNumber === "All numbers drawn.") {
+          if (drawNumbers[drawNumbers.length - 1] === "All numbers drawn.") {
+            // displayNumber(drawnNumber);
+            displayNumber(drawNumbers[drawNumbers.length - 1]);
           } else {
 
-          
-            // Assigns drawn letter and number
-            let letty = drawnNumber.slice(0, 1);
-            let numby = parseInt(drawnNumber.slice(2, 4));
-            let convLet = null;
+            drawNumbers.forEach(drawnNumber => {
+              
+            
+              // Assigns drawn letter and number
+              let letty = drawnNumber.slice(0, 1);
+              let numby = parseInt(drawnNumber.slice(2, 4));
+              let convLet = null;
 
-            // Converts drawn bingo letter to number
-            if (letty == 'B') {
-                convLet = 0;
-            } else if (letty == 'I') {
-                convLet = 1;
-            } else if (letty == 'N') {
-                convLet = 2;
-            } else if (letty == 'G') {
-                convLet = 3;
-            } else if (letty == 'O') {
-                convLet = 4;
-            }
-
-            // Retrieves player's card from server
-            $.get(`${backendUrl}/player/bingo-card?hostName=${hostName}&playerName=${playerName}`, function (data2) {
-              let bingoNumbers = data2;
-
-              // Adds parenthesis to clicked number
-              if (clickedCol === convLet && bingoNumbers[clickedRow][clickedCol] === numby) {
-                bingoNumbers[clickedRow][clickedCol] = '(' + bingoNumbers[clickedRow][clickedCol] + ')';
-
-                // Sends updated (marked) card to server
-                fetch(`${backendUrl}/player/update-card?hostName=${hostName}&playerName=${playerName}`, {
-                  method: 'POST',
-                  headers: {
-                      'Content-Type': 'application/json'
-                  },
-                  body: JSON.stringify(bingoNumbers)
-                })
-                .then(response => response.json())
-                .then(data3 => {
-                    let updatedBingoNumbers = data3;
-                    drawBingoCard(updatedBingoNumbers);
-                });
+              // Converts drawn bingo letter to number
+              if (letty == 'B') {
+                  convLet = 0;
+              } else if (letty == 'I') {
+                  convLet = 1;
+              } else if (letty == 'N') {
+                  convLet = 2;
+              } else if (letty == 'G') {
+                  convLet = 3;
+              } else if (letty == 'O') {
+                  convLet = 4;
               }
+
+              // Retrieves player's card from server
+              $.get(`${backendUrl}/player/bingo-card?hostName=${hostName}&playerName=${playerName}`, function (data2) {
+                let bingoNumbers = data2;
+
+                // Adds parenthesis to clicked number
+                if (clickedCol === convLet && bingoNumbers[clickedRow][clickedCol] === numby) {
+                  bingoNumbers[clickedRow][clickedCol] = '(' + bingoNumbers[clickedRow][clickedCol] + ')';
+
+                  // Sends updated (marked) card to server
+                  fetch(`${backendUrl}/player/update-card?hostName=${hostName}&playerName=${playerName}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(bingoNumbers)
+                  })
+                  .then(response => response.json())
+                  .then(data3 => {
+                      let updatedBingoNumbers = data3;
+                      drawBingoCard(updatedBingoNumbers);
+                  });
+                }
+              });
             });
           }
         });
@@ -437,15 +444,15 @@ $(function () {
 
   // ******************** Used prior to web sockets
       // Displays the current drawn number from server
-      function updateDrawnNumber(hostName, playerName) {
-        $.get(`${backendUrl}/player/get-draw?hostName=${hostName}&playerName=${playerName}`, function (data) {
-          let drawnNumber = data;
-          if (drawnNumber !== null) {
-            $('#drawnspace').text(drawnNumber);
-            console.log("Update draw number: " + drawnNumber);
-          }
-        });
-      }
+      // function updateDrawnNumber(hostName, playerName) {
+      //   $.get(`${backendUrl}/player/get-draw?hostName=${hostName}&playerName=${playerName}`, function (data) {
+      //     let drawnNumber = data;
+      //     if (drawnNumber !== null) {
+      //       $('#drawnspace').text(drawnNumber);
+      //       console.log("Update draw number: " + drawnNumber);
+      //     }
+      //   });
+      // }
       
       // Displays chat messages
       function displayMessage(sender, content) {

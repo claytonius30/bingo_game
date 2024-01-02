@@ -136,10 +136,12 @@ public class BingoController
 	@GetMapping("/host/retart-game")
 	public Object distributeNewCards(@RequestParam String hostName, @RequestParam String gameId)
 	{
+		Host host = bingoService.findHost(hostName);
 		GameSession gameSession = bingoService.findGameSession(gameId);
 		
 		if (bingoService.findGameSessionByHost(hostName).equals(gameSession))
 		{
+			host.resetDrawNums();
 			for (Player player : gameSession.getPlayers())
 				player.setBingoCard(new BingoCard(gameSession.initializeBingoCard()));
 		}
@@ -159,13 +161,14 @@ public class BingoController
 		return "Game Ended";
 	}
 	
-	// Used prior to web sockets to retrieve a drawn number
+	// Used prior to web sockets to retrieve a drawn number. Now used to retrieve drawnNums list
 	@GetMapping("/player/get-draw")
-    public Object getDrawNumber(@RequestParam String hostName, @RequestParam String playerName)
+    public List<Object> getDrawNumber(@RequestParam String hostName, @RequestParam String playerName)
 	{
 		GameSession gameSession = bingoService.findGameSessionByHost(hostName);
-		Object drawnNumber = gameSession.findPlayer(playerName).getDrawnNumber();
-		return drawnNumber;
+//		Object drawnNumber = gameSession.findPlayer(playerName).getDrawnNumber();
+//		return drawnNumber;
+		return gameSession.getDrawnNums();
 	}
 	
 	// Updates player's card with markings

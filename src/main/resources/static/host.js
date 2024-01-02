@@ -65,7 +65,7 @@ $(function () {
       console.log("Host Draw page loaded");
 
       $('#endgame-container').hide();
-      $('#reconnectbutton-container').show();
+      // $('#reconnectbutton-container').show();
 
       // Assigns host name and game ID from URL
       const urlParams = new URLSearchParams(window.location.search);

@@ -29,7 +29,7 @@ public class Player
 	private Object drawnNumber;
 	private String clickedLetter;
 	private String clickedNumber;
-	private List<Object> clickedNums = new ArrayList<>();
+	private List<Object> clickedNums;
 	
 	
 	public Player(String playerName, String hostName, String gameId)
@@ -37,6 +37,7 @@ public class Player
         this.playerName = playerName;
         this.hostName = hostName;
         this.gameId = gameId;
+        clickedNums = new ArrayList<>();
     }
 	
 	public String getPlayerName()

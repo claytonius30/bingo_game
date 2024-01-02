@@ -21,8 +21,9 @@ public class GameSession
 {
 	private String gameId;
 	private Host host;
-    private List<Player> players = new ArrayList<>();
-    private List<BingoCard> bingoCards = new ArrayList<>();
+    private List<Player> players;
+    private List<BingoCard> bingoCards;
+    private List<Object> drawnNums;
     private Random random = new Random();
     
     
@@ -35,6 +36,9 @@ public class GameSession
     {
         this.gameId = gameId;
         this.host = host;
+        players = new ArrayList<>();
+        bingoCards = new ArrayList<>();
+        drawnNums = new ArrayList<>();
     }
     
     // Adds a Player to the game session
@@ -65,11 +69,11 @@ public class GameSession
     {
     	List<List<Object>> bingoCard = new ArrayList<>();
 
-        bingoCard.add(List.of(random.nextInt(2), random.nextInt(2), random.nextInt(2), random.nextInt(2), random.nextInt(2)));
-        bingoCard.add(List.of(random.nextInt(2), random.nextInt(2), random.nextInt(2), random.nextInt(2), random.nextInt(2)));
-        bingoCard.add(List.of(random.nextInt(2), random.nextInt(2), "X", random.nextInt(2), random.nextInt(2)));
-        bingoCard.add(List.of(random.nextInt(2), random.nextInt(2), random.nextInt(2), random.nextInt(2), random.nextInt(2)));
-        bingoCard.add(List.of(random.nextInt(2), random.nextInt(2), random.nextInt(2), random.nextInt(2), random.nextInt(2)));
+        bingoCard.add(List.of(random.nextInt(3), random.nextInt(3), random.nextInt(3), random.nextInt(3), random.nextInt(3)));
+        bingoCard.add(List.of(random.nextInt(3), random.nextInt(3), random.nextInt(3), random.nextInt(3), random.nextInt(3)));
+        bingoCard.add(List.of(random.nextInt(3), random.nextInt(3), "X", random.nextInt(3), random.nextInt(3)));
+        bingoCard.add(List.of(random.nextInt(3), random.nextInt(3), random.nextInt(3), random.nextInt(3), random.nextInt(3)));
+        bingoCard.add(List.of(random.nextInt(3), random.nextInt(3), random.nextInt(3), random.nextInt(3), random.nextInt(3)));
         
         return bingoCard;
     }

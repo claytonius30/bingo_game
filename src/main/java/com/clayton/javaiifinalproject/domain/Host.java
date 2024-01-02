@@ -23,8 +23,8 @@ public class Host
 {
 	private String hostName;
 	private GameSession gameSession;
-    private List<Object> drawnNums;
-//	private Set<Object> drawnNums;
+    private List<Object> allDrawNums;
+//	private Set<Object> allDrawNums;
     private Object currentDrawnNum;
     private Random random = new Random();
     
@@ -32,33 +32,44 @@ public class Host
     public Host(String hostName)
     {
     	this.hostName = hostName;
-    	drawnNums = new ArrayList<>();
-//    	drawnNums = new HashSet<>();
+    	allDrawNums = new ArrayList<>();
+//    	allDrawNums = new HashSet<>();
     	
     	generateAllDraws();
     }
     
+    // Clears allDrawNums and re-populates with all numbers
+    public void resetDrawNums()
+    {
+    	allDrawNums.clear();
+    	gameSession.getDrawnNums().clear();
+    	generateAllDraws();
+    }
+    
+    // Generates all draw number values
     private void generateAllDraws()
     {
     	String[] letters = {"B", "I", "N", "G", "O"};
     	
     	for (String letter : letters)
     	{
-    		for (int i=0; i<2; i++)
-    			drawnNums.add(letter + " " + i);
+    		for (int i=0; i<3; i++)
+    			allDrawNums.add(letter + " " + i);
     	}
     }
     
+    // Randomly draws and removes number from allDrawNums. Notifies players and returns current draw.
     public Object drawNumber()
     {
     	int rand;
     	
-        if (drawnNums.size() != 0)
+        if (allDrawNums.size() != 0)
         {
-        	rand = random.nextInt(drawnNums.size());
+        	rand = random.nextInt(allDrawNums.size());
         	
-	    	currentDrawnNum = drawnNums.get(rand);
-	    	drawnNums.remove(currentDrawnNum);
+	    	currentDrawnNum = allDrawNums.get(rand);
+	    	allDrawNums.remove(currentDrawnNum);
+	    	gameSession.getDrawnNums().add(currentDrawnNum);
         }
         else
         	currentDrawnNum = "All numbers drawn.";
@@ -78,7 +89,7 @@ public class Host
 //        
 //        currentDrawnNum = drawnLetter + " " + drawnNumber;
 //        
-//    	drawnNums.add(currentDrawnNum);
+//    	allDrawNums.add(currentDrawnNum);
 //    	gameSession.notifyPlayers(currentDrawnNum);
 //    	
 //        return currentDrawnNum;
