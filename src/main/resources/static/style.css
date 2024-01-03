@@ -110,3 +110,33 @@ label {
     border-radius: 15px;
   }
 }
+
+/* Bingo-win scrolling */
+.list-container {
+  height: 85px; /* Set the desired height for the container (175 px)*/
+  overflow: hidden; /* Hide content that overflows the container */
+  position: relative; /* Position property for absolute positioning */
+}
+
+.scrolling-list {
+  padding: 0;
+  margin: 0;
+  overflow-y: auto; /* Enable vertical scrolling */
+  height: 100%; /* Set the height to 100% to fill the container */
+}
+
+/* #bingocheck {
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+} */
+
+.check-container {
+  height: 21px; /* Set the desired height for the container */
+  overflow: hidden; /* Hide content that overflows the container */
+  position: relative; /* Position property for absolute positioning */
+}
+
+#bingowin {
+  font-size: 28px;
+}

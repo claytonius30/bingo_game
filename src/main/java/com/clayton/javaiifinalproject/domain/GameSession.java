@@ -69,11 +69,11 @@ public class GameSession
     {
     	List<List<Object>> bingoCard = new ArrayList<>();
 
-        bingoCard.add(List.of(random.nextInt(3), random.nextInt(3), random.nextInt(3), random.nextInt(3), random.nextInt(3)));
-        bingoCard.add(List.of(random.nextInt(3), random.nextInt(3), random.nextInt(3), random.nextInt(3), random.nextInt(3)));
-        bingoCard.add(List.of(random.nextInt(3), random.nextInt(3), "X", random.nextInt(3), random.nextInt(3)));
-        bingoCard.add(List.of(random.nextInt(3), random.nextInt(3), random.nextInt(3), random.nextInt(3), random.nextInt(3)));
-        bingoCard.add(List.of(random.nextInt(3), random.nextInt(3), random.nextInt(3), random.nextInt(3), random.nextInt(3)));
+        bingoCard.add(List.of(random.nextInt(1), random.nextInt(1), random.nextInt(1), random.nextInt(1), random.nextInt(1)));
+        bingoCard.add(List.of(random.nextInt(1), random.nextInt(1), random.nextInt(1), random.nextInt(1), random.nextInt(1)));
+        bingoCard.add(List.of(random.nextInt(1), random.nextInt(1), "X", random.nextInt(1), random.nextInt(1)));
+        bingoCard.add(List.of(random.nextInt(1), random.nextInt(1), random.nextInt(1), random.nextInt(1), random.nextInt(1)));
+        bingoCard.add(List.of(random.nextInt(1), random.nextInt(1), random.nextInt(1), random.nextInt(1), random.nextInt(1)));
         
         return bingoCard;
     }

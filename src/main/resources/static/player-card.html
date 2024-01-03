@@ -18,9 +18,9 @@
 </head>
 
 <body>
-  <h1>Player Card</h1>
+  <h1><span id="playersname"></span>'s Card</h1>
   
-  <h2 id="playersname"></h2>
+  <!-- <h2 id="playersname"></h2> -->
   <span id="hostsname"></span><br>
  
   <span id="connectionstatus1">***Chat message connection closed***<br></span>
@@ -33,7 +33,7 @@
   </div>
 
   <div id="drawnnumber-container">
-    <h4>Drawn Number: <br><span id="drawnspace"></span></h4>
+    <h4>Drawn Number: <span id="drawnspace"></span></h4>
   </div>
   <div id="endgame-container"><br>
     <span id="gameendresponse"></span>
@@ -47,8 +47,12 @@
   <div id="bingomessage-container">
     <label for="bingobutton">Press when there's a: </label>
     <button type="button" id="bingobutton" name="bingobutton" class="buttons">BINGO</button>
-    <div id="bingocheck"></div><br>
-    <h2><div id="bingowin"></div></h2><br>
+    <div class="check-container">
+      <div id="bingocheck"></div><br>
+    </div>
+    <div class="list-container">
+      <div id="bingowin" class="scrolling-list"></div><br>
+    </div>
   </div>
 
   <div id="chat-container">

@@ -391,6 +391,10 @@ $(function () {
           // }
           setTimeout(function(){
             $('#bingocheck').empty();
+            // let noWinMessage = $('#bingocheck');
+            // const noWinElement = $('<div>').text(".");
+            // noWinMessage.prepend(noWinElement);
+            // $('#bingocheck').text(".");
           }, 2000);
         }
       });
@@ -482,9 +486,10 @@ $(function () {
           winMessage.prepend(winElement);
           count++;
         } else {
-          const noWinMessage = $('#bingocheck');
+          let noWinMessage = $('#bingocheck');
           const noWinElement = $('<div>').html(message);
           noWinMessage.prepend(noWinElement);
+          // noWinMessage.text(message);
         }
       }
     }
