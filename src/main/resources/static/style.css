@@ -17,16 +17,6 @@ h3 {
   margin-bottom: 20px;
 }
 
-/* Style for form elements on Character Design and Quest Select pages */
-.designquestforms {
-  max-width: 500px;
-  margin: 0 auto;
-  background-color: #ffe4b5;
-  padding: 20px;
-  border-radius: 15px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
-}
-
 /* Common styles for labels and form elements */
 label {
   font-weight: bold;
@@ -36,31 +26,6 @@ label {
 
 .form-group {
   margin-bottom: 20px; /* Adds space between form elements */
-}
-
-/* Style for error messages */
-.errormessages {
-  color: #062af5;
-  font-size: 16px;
-}
-
-/* Style for all Continue/Embark buttons */
-.continuebuttons {
-  display: block;
-  margin: 0 auto;
-  padding: 8px 14px;
-  background-color: #800000;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  font-size: 20px;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-/* Style for hovering over Continue/Embark buttons */
-.continuebuttons:hover {
-  background-color: #1e7504;
 }
 
 /* Styles for Bingo letters header */
@@ -88,6 +53,10 @@ label {
   font-size: 40px;
 }
 
+#bingowin {
+  font-size: 28px;
+}
+
 /* Adjusts styles for screens smaller screens (phones) */
 @media (max-width: 768px) {
   body {
@@ -96,18 +65,6 @@ label {
 
   h3 {
     font-size: 24px; /* Adjust the font size for better readability on mobile */
-  }
-
-  .designquestforms {
-    max-width: 100%; /* Adjust the max-width for better responsiveness on small screens */
-  }
-
-  /* Vendor prefixes for border-radius */
-  .designquestforms,
-  .continuebuttons {
-    -webkit-border-radius: 15px;
-    -moz-border-radius: 15px;
-    border-radius: 15px;
   }
 }
 
@@ -125,18 +82,31 @@ label {
   height: 100%; /* Set the height to 100% to fill the container */
 }
 
-/* #bingocheck {
-  overflow: hidden;
-  position: relative;
-  z-index: 1;
-} */
-
+/* Non-win message static */
 .check-container {
   height: 21px; /* Set the desired height for the container */
   overflow: hidden; /* Hide content that overflows the container */
   position: relative; /* Position property for absolute positioning */
 }
 
-#bingowin {
-  font-size: 28px;
+
+.cardwin-section {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-flow: row wrap;
+  flex-flow: row wrap;
+}
+
+#card-container {
+  margin-bottom: -25px;
+}
+
+/* #bingomessage-container {
+  flex: 1 1 auto;
+  margin-top: 25px;
+} */
+
+#chat-container {
+  flex: 1 1 auto;
+  margin-top: 25px;
 }
