@@ -65,6 +65,7 @@ $(function () {
     } else if (window.location.href.indexOf('player-card.html') > -1) {    
       console.log("Player Card page loaded");
 
+      $('#prevdrawn-container').hide();
       $('#endgame-container').hide();
       // $('#reconnectbutton-container').show();
 
@@ -117,6 +118,16 @@ $(function () {
         $('#drawnnumber-container').show();
         $('#connectionstatus2').hide();
         $('#reconnectbutton').hide();
+        // Notifies host of joined player
+        const message = {
+          type: 'player',
+          content: playerName
+        };
+        if (socket2.readyState === WebSocket.OPEN) {
+          socket2.send(JSON.stringify(message));
+        } else {
+          console.log("Socket2 is closed. Cannot send data.");
+        }
       });
 
       // Listens for closed second web socket
@@ -160,7 +171,7 @@ $(function () {
         $('#endgame-container').show();
       });
 
-      // Sends notification to host that player joined
+      // (Not working for some reason) Sends notification to host that player joined
       window.onload = function() {
         setTimeout( function() {
           const message = {
@@ -325,7 +336,54 @@ $(function () {
       socket2.addEventListener('message', (event) => {
         const receivedNumber = JSON.parse(event.data);
         if (receivedNumber.type === 'draw') {
-          displayNumber(receivedNumber.content);
+          if ($('#previousdraws').children().length >= 3) {
+            displayNumber(receivedNumber.content);
+          } else {
+          // }
+          // Functionality for when a player joins late
+          // if ($('#previousdraws').children().length < 3) {
+            let prevDraws = $('#previousdraws');
+            fetch(`${backendUrl}/player/get-draw?hostName=${hostName}&playerName=${playerName}`)
+              // .then(response => response.json())
+              .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+              })
+              .then(data => {
+                let bingoNumbers = data;
+                if (bingoNumbers.length === 1) {
+                  $('#drawnspace').text(bingoNumbers[0]);
+                } else if (bingoNumbers.length > 1) {
+                  $('#drawnspace').text(bingoNumbers[bingoNumbers.length - 1]);
+                  $('#prevdrawn-container').show();
+                  bingoNumbers.forEach(drawnNumber => {
+                    if (drawnNumber !== $('#drawnspace').text()) {
+                      let elem = $("<option>");
+                      elem.val(drawnNumber).text(drawnNumber);
+                      prevDraws.children().eq(0).after(elem);
+                    }
+                  });
+                  // prevDraws.children().val($('#drawnspace').text()).remove();
+                  prevDraws.attr('size', 1);
+                  prevDraws.on('mousedown', function () {
+                    // prevDraws.children(':contains("' + $('#drawnspace').text() + '")').remove();
+                    // Set a large size to show all options
+                    if (prevDraws.children().length > 2) {
+                      $(this).attr('size', 3);
+                    }
+                  });
+                  // Reset size when focus is lost (when clicking outside the select box)
+                  prevDraws.on('blur', function () {
+                    // Set size back to 1 to hide options
+                    $(this).attr('size', 1);
+                    // $(this).get(0);
+                  });
+                }
+              })
+              .catch(error => console.error('Error:', error));
+          }
         }
       });
 
@@ -335,7 +393,11 @@ $(function () {
         const receivedMessage = JSON.parse(event.data);
         if (receivedMessage.type === 'reset') {
           $('#bingowin').empty();
-          $('#drawnspace').empty();
+          $('#drawwords').show();
+          $('#drawnspace').empty().css('font-size', '40px');;
+          $('#previousdraws').children(':gt(0)').remove();
+          $('#prevdrawn-container').hide();
+          $('#drawnnumber-container').css('width', '75%');
           count = 1;
           $('#bingowin').prepend(receivedMessage.content);
           setTimeout( function() {
@@ -364,6 +426,7 @@ $(function () {
                 $('#gameendresponse').text(receivedMessage.content);
                 $('#endgame-container').show();
                 $('#reconnectbutton-container').hide();
+                $('#drawing-container').hide();
               };
               socket3.close();
             };
@@ -433,12 +496,13 @@ $(function () {
       // }
       function getCard(hostName, playerName) {
         fetch(`${backendUrl}/player/bingo-card?hostName=${hostName}&playerName=${playerName}`)
-          .then(response => response.json())
-              // if (!response.ok) {
-              //     throw new Error(`HTTP error! Status: ${response.status}`);
-              // }
-              // return response.json();
-          // }
+          // .then(response => response.json())
+          .then(response => {
+              if (!response.ok) {
+                  throw new Error(`HTTP error! Status: ${response.status}`);
+              }
+              return response.json();
+          })
           .then(data => {
               let bingoNumbers = data;
               drawBingoCard(bingoNumbers);
@@ -466,11 +530,64 @@ $(function () {
         chatMessages.prepend(messageElement);;
       }
 
+      // $('#prevdrawn-container').hide();
       // Displays drawn number
       function displayNumber(content) {
         console.log("Drawn number received:", content);
         const numberWindow = $('#drawnspace');
         numberWindow.text(content);
+        let prevDraws = $('#previousdraws');
+        $('#previousdraws :first-child').prop('selected', true);
+          
+        if (!content.includes("drawn")) {
+          // Variable for option tags to be added to select list
+          let elem = $("<option>");
+          elem.val(content).text(content);
+          // prevDraws.prepend(elem);
+          prevDraws.children().eq(0).after(elem);
+          prevDraws.attr('size', 1);
+          // $(this).attr('size', 3);
+
+
+          // prevDraws.on('click', function () {
+          //   // Set a large size to show all options
+          //   $(this).attr('size', 3);
+          // });
+
+          // Toggle size on click
+          prevDraws.on('mousedown', function () {
+            // prevDraws.children(':contains("' + $('#drawnspace').text() + '")').remove();
+            // Set a large size to show all options
+            $(this).attr('size', 3);
+          });
+
+          
+
+          // Reset size when focus is lost (when clicking outside the select box)
+          prevDraws.on('blur', function () {
+            // Set size back to 1 to hide options
+            $(this).attr('size', 1);
+            // $(this).get(0);
+          });
+          
+
+          if (prevDraws.find('option').length > 2) {
+            $('#prevdrawn-container').show();
+            
+          }
+        } else {
+          // $('#previousdraws').hide();
+          $('#drawwords').hide();
+          $('#prevdrawn-container').hide();
+          $('#drawnspace').css('font-size', '37px');
+          $('#drawnnumber-container').css('width', '100%');
+          // $('#prevdrawn-container').css('width', '0%');
+          
+        }
+        // } 
+        // else {
+        //   $('#prevdrawn-container').hide();
+        // }
       }
 
       // Displays Bingo check messages

@@ -73,7 +73,7 @@ public class Host
         }
         else
         	currentDrawnNum = "All numbers drawn.";
-    	
+        
     	gameSession.notifyPlayers(currentDrawnNum);
     	
         return currentDrawnNum;

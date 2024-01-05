@@ -32,32 +32,38 @@
     <button id="reconnectbutton">Reconnect<br></button>
   </div>
 
-  <div id="drawnnumber-container">
-    <h4>Drawn Number: <span id="drawnspace"></span></h4>
+  <div class="flex-section" id="drawing-container">
+    <div id="drawnnumber-container">
+      <h4><span id="drawwords">Drawn Number:  </span><span id="drawnspace"></span></h4>
+    </div>
+    <div id="prevdrawn-container">
+      <select id="previousdraws" name="previousdraws">
+        <option value="none" selected>Previous Draws:</option>
+      </select>
+    </div>
   </div>
+
   <div id="endgame-container"><br>
     <span id="gameendresponse"></span>
     <button type="button" id="gotohomepage">Return to Homepage</button>
   </div>
 
-  <div class="cardwin-section">
+  <div class="flex-section">
     <div id="card-container">
       <canvas id="bingo-card"></canvas><br><br>
     <!-- </div> -->
-
-    <div id="bingomessage-container">
-      <label for="bingobutton">Press when there's a: </label>
-      <button type="button" id="bingobutton" name="bingobutton" class="buttons">BINGO</button>
-      <div class="check-container">
-        <div id="bingocheck"></div><br>
-      </div>
-      <div class="list-container">
-        <div id="bingowin" class="scrolling-list"></div><br>
+      <div id="bingomessage-container">
+        <label for="bingobutton">Press when there's a: </label>
+        <button type="button" id="bingobutton" name="bingobutton" class="buttons">BINGO</button>
+        <div class="check-container">
+          <div id="bingocheck"></div><br>
+        </div>
+        <div class="list-container">
+          <div id="bingowin" class="scrolling-list"></div><br>
+        </div>
       </div>
     </div>
-  </div>
   
-
     <div id="chat-container">
       <div id="chatmessage-container">
           <input type="text" id="message-input" placeholder="Type your message...">

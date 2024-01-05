@@ -89,8 +89,8 @@ label {
   position: relative; /* Position property for absolute positioning */
 }
 
-
-.cardwin-section {
+/* Flex containers' rules */
+.flex-section {
   display: -webkit-flex;
   display: flex;
   -webkit-flex-flow: row wrap;
@@ -110,3 +110,33 @@ label {
   flex: 1 1 auto;
   margin-top: 25px;
 }
+
+/* Flex container drawings */
+
+#drawing-container {
+  width: 345px;
+  height: 36px;
+  overflow: visible; /* Hide content that overflows the container */
+  position: relative; /* Position property for absolute positioning */
+}
+
+#drawnnumber-container {
+  width: 75%;
+}
+
+#prevdrawn-container {
+  width: 25%;
+  /* height: 21px; Set the desired height for the container */
+  /* overflow: hidden; Hide content that overflows the container */
+  /* position: relative; Position property for absolute positioning */
+  /* height: 15px;
+  overflow: hidden;
+  position: relative; */
+}
+
+/* #previousdraws {
+  padding: 0;
+  margin: 0;
+  overflow-y: scroll;
+  height: 100%;
+} */
