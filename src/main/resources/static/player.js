@@ -73,6 +73,7 @@ $(function () {
       const urlParams = new URLSearchParams(window.location.search);
       const hostName = urlParams.get('hostName');
       const playerName = urlParams.get('playerName');
+      let count = 1;
 
       $('#playersname').text(playerName);
       $('#hostsname').text(`host: ${hostName}`);
@@ -128,6 +129,48 @@ $(function () {
         } else {
           console.log("Socket2 is closed. Cannot send data.");
         }
+        // Adds previously drawn numbers for players who join late
+        fetch(`${backendUrl}/player/get-draw?hostName=${hostName}&playerName=${playerName}`)
+          .then(response => {
+            if (!response.ok) {
+              throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+          })
+          .then(data => {
+            let bingoNumbers = data;
+            let prevDraws = $('#previousdraws');
+            if (bingoNumbers.length > 0) {
+              if (bingoNumbers.length === 1) {
+                $('#drawnspace').text(bingoNumbers[0]);
+              } else if (bingoNumbers.length > 1) {
+                $('#drawnspace').text(bingoNumbers[bingoNumbers.length - 1]);
+                $('#prevdrawn-container').show();
+                bingoNumbers.forEach(drawnNumber => {
+                  if (drawnNumber !== $('#drawnspace').text()) {
+                    let elem = $("<option>");
+                    elem.val(drawnNumber).text(drawnNumber);
+                    prevDraws.children().eq(0).after(elem);
+                  }
+                });
+                prevDraws.attr('size', 1);
+                prevDraws.on('mousedown', function () {
+                  // Sets a large size to show all options
+                  if (prevDraws.children().length === 2) {
+                    $(this).attr('size', 2);
+                  } else if (prevDraws.children().length > 2) {
+                    $(this).attr('size', 3);
+                  }
+                });
+                // Resets size when focus is lost (when clicking outside the select box)
+                prevDraws.on('blur', function () {
+                  // Sets size back to 1 to hide options
+                  $(this).attr('size', 1);
+                });
+              }
+            }
+          })
+          .catch(error => console.error('Error:', error));
       });
 
       // Listens for closed second web socket
@@ -145,6 +188,15 @@ $(function () {
         $('#bingomessage-container').show();
         $('#connectionstatus3').hide();
         $('#reconnectbutton').hide();
+        // Checks with host for previous wins (late-joining players)
+        const message = {
+          type: 'retrieveWins',
+        };
+        if (socket3.readyState === WebSocket.OPEN) {
+          socket3.send(JSON.stringify(message));
+        } else {
+          console.log("Socket3 is closed. Cannot send data.");
+        }
       });
 
       // Listens for closed third web socket
@@ -332,58 +384,23 @@ $(function () {
         // }
       });
 
+      // Listens for previous wins (if player joined late)
+      socket3.addEventListener('message', (event) => {
+        const previousWinData = JSON.parse(event.data);
+        if (previousWinData.type === 'prevWinData') {
+          previousWinData.prevWins.forEach(win => {
+            $('#bingowin').append($('<div>').html(win));
+          });
+          count = previousWinData.winCount;
+          console.log("updated count: " + count);
+        }
+      });
+
       // Listens for draw numbers
       socket2.addEventListener('message', (event) => {
         const receivedNumber = JSON.parse(event.data);
         if (receivedNumber.type === 'draw') {
-          if ($('#previousdraws').children().length >= 3) {
             displayNumber(receivedNumber.content);
-          } else {
-          // }
-          // Functionality for when a player joins late
-          // if ($('#previousdraws').children().length < 3) {
-            let prevDraws = $('#previousdraws');
-            fetch(`${backendUrl}/player/get-draw?hostName=${hostName}&playerName=${playerName}`)
-              // .then(response => response.json())
-              .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-                return response.json();
-              })
-              .then(data => {
-                let bingoNumbers = data;
-                if (bingoNumbers.length === 1) {
-                  $('#drawnspace').text(bingoNumbers[0]);
-                } else if (bingoNumbers.length > 1) {
-                  $('#drawnspace').text(bingoNumbers[bingoNumbers.length - 1]);
-                  $('#prevdrawn-container').show();
-                  bingoNumbers.forEach(drawnNumber => {
-                    if (drawnNumber !== $('#drawnspace').text()) {
-                      let elem = $("<option>");
-                      elem.val(drawnNumber).text(drawnNumber);
-                      prevDraws.children().eq(0).after(elem);
-                    }
-                  });
-                  // prevDraws.children().val($('#drawnspace').text()).remove();
-                  prevDraws.attr('size', 1);
-                  prevDraws.on('mousedown', function () {
-                    // prevDraws.children(':contains("' + $('#drawnspace').text() + '")').remove();
-                    // Set a large size to show all options
-                    if (prevDraws.children().length > 2) {
-                      $(this).attr('size', 3);
-                    }
-                  });
-                  // Reset size when focus is lost (when clicking outside the select box)
-                  prevDraws.on('blur', function () {
-                    // Set size back to 1 to hide options
-                    $(this).attr('size', 1);
-                    // $(this).get(0);
-                  });
-                }
-              })
-              .catch(error => console.error('Error:', error));
-          }
         }
       });
 
@@ -530,68 +547,57 @@ $(function () {
         chatMessages.prepend(messageElement);;
       }
 
-      // $('#prevdrawn-container').hide();
       // Displays drawn number
       function displayNumber(content) {
         console.log("Drawn number received:", content);
         const numberWindow = $('#drawnspace');
         numberWindow.text(content);
-        let prevDraws = $('#previousdraws');
         $('#previousdraws :first-child').prop('selected', true);
           
         if (!content.includes("drawn")) {
-          // Variable for option tags to be added to select list
-          let elem = $("<option>");
-          elem.val(content).text(content);
-          // prevDraws.prepend(elem);
-          prevDraws.children().eq(0).after(elem);
-          prevDraws.attr('size', 1);
-          // $(this).attr('size', 3);
-
-
-          // prevDraws.on('click', function () {
-          //   // Set a large size to show all options
-          //   $(this).attr('size', 3);
-          // });
-
-          // Toggle size on click
-          prevDraws.on('mousedown', function () {
-            // prevDraws.children(':contains("' + $('#drawnspace').text() + '")').remove();
-            // Set a large size to show all options
-            $(this).attr('size', 3);
-          });
-
-          
-
-          // Reset size when focus is lost (when clicking outside the select box)
-          prevDraws.on('blur', function () {
-            // Set size back to 1 to hide options
-            $(this).attr('size', 1);
-            // $(this).get(0);
-          });
-          
-
-          if (prevDraws.find('option').length > 2) {
-            $('#prevdrawn-container').show();
-            
-          }
+          fetch(`${backendUrl}/player/get-draw?hostName=${hostName}&playerName=${playerName}`)
+            .then(response => {
+              if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+              }
+              return response.json();
+            })
+            .then(data => {
+              let bingoNumbers = data;
+              let prevDraws = $('#previousdraws');
+              if (bingoNumbers.length === 1) {
+                $('#drawnspace').text(bingoNumbers[0]);
+              } else if (bingoNumbers.length > 1) {
+                $('#prevdrawn-container').show();
+                let elem = $("<option>");
+                elem.val(bingoNumbers[bingoNumbers.length - 2]).text(bingoNumbers[bingoNumbers.length - 2]);
+                prevDraws.children().eq(0).after(elem);
+                prevDraws.attr('size', 1);
+                prevDraws.on('mousedown', function () {
+                  // Sets a large size to show all options
+                  if (prevDraws.children().length === 2) {
+                    $(this).attr('size', 2);
+                  } else if (prevDraws.children().length > 2) {
+                    $(this).attr('size', 3);
+                  }
+                });
+                // Resets size when focus is lost (when clicking outside the select box)
+                prevDraws.on('blur', function () {
+                  // Sets size back to 1 to hide options
+                  $(this).attr('size', 1);
+                });
+              }
+            })
+            .catch(error => console.error('Error:', error));
         } else {
-          // $('#previousdraws').hide();
           $('#drawwords').hide();
           $('#prevdrawn-container').hide();
           $('#drawnspace').css('font-size', '37px');
           $('#drawnnumber-container').css('width', '100%');
-          // $('#prevdrawn-container').css('width', '0%');
-          
         }
-        // } 
-        // else {
-        //   $('#prevdrawn-container').hide();
-        // }
       }
 
       // Displays Bingo check messages
-      let count = 1;
       function displayBingoMessage(message) {
         if (message !== "") {
           console.log("Bingo message received:", message);
@@ -599,7 +605,7 @@ $(function () {
         if (message.includes("!")) {
           const winMessage = $('#bingowin');
           const winElement = $('<div>').html(message);
-          winMessage.prepend(`win#: ${count} - - - - - - -`);
+          winMessage.prepend($('<div>').html(`win#: ${count} - - - - - - -`));
           winMessage.prepend(winElement);
           count++;
         } else {

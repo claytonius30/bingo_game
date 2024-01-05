@@ -71,6 +71,7 @@ $(function () {
       const urlParams = new URLSearchParams(window.location.search);
       const hostName = urlParams.get('hostName');
       const gameId = urlParams.get('gameId');
+      let count = 1;
 
       $('#hostsname').text(hostName);
 
@@ -255,12 +256,6 @@ $(function () {
                 $('#reconnectbutton-container').hide();
                 $('#playerlist-container').hide();
               });
-              // Shows/hides end-of-game elements
-              // $("#gotohomepage").show();
-              // $('#reconnectbutton').hide();
-              // $("#draw-container").hide();
-              // $("#stopgame-container").hide();
-              // $("#message-input-container").hide();
             };
             socket3.close();
           };
@@ -320,8 +315,33 @@ $(function () {
       // Listens for draw numbers
       socket2.addEventListener('message', (event) => {
         const receivedNumber = JSON.parse(event.data);
-        if (receivedNumber.type === "draw") {
+        if (receivedNumber.type === 'draw') {
           displayNumber(receivedNumber.content);
+        }
+      });
+
+      // Listens for late-joined players (sends previous bingo checks)
+      socket3.addEventListener('message', (event) => {
+        const prevWinCheck = JSON.parse(event.data);
+        if (prevWinCheck.type === 'retrieveWins') {
+          if ($('#bingowin').children().length > 0) {
+            let previousWins = [];
+            $('#bingowin').children().each(function() {
+              previousWins.push($(this).text());
+            });
+            // Notifies players of win count
+            const message = {
+              type: 'prevWinData',
+              prevWins: previousWins,
+              winCount: count
+            };
+            console.log("updated wins for new player: " + message.prevWins);
+            if (socket3.readyState === WebSocket.OPEN) {
+              socket3.send(JSON.stringify(message));
+            } else {
+              console.log("Socket3 is closed. Cannot send data.");
+            }
+          }
         }
       });
 
@@ -352,7 +372,7 @@ $(function () {
         chatMessages.prepend(messageElement);
       }
 
-      //Displays drawn number
+      // Displays drawn number
       function displayNumber(content) {
         console.log("Displaying Draw Number:", content);
         const numberWindow = $('#drawnspace');
@@ -360,14 +380,13 @@ $(function () {
       }
 
       // Displays Bingo check messages
-      let count = 1;
       function displayBingoMessage(sender, content) {
         let bingoMessage = "";
         if (content.includes("!")) {
           if (!$('#bingowin').children().text().includes(`${sender}: ${content}`)) {
             const bingoWinMessages = $('#bingowin');
             const winElement = $('<div>').html(`${sender}: ${content}`);
-            bingoWinMessages.prepend(`win#: ${count} - - - - - - -`);
+            bingoWinMessages.prepend($('<div>').html(`win#: ${count} - - - - - - -`));
             bingoWinMessages.prepend(winElement);
             count++;
             bingoMessage = $('#bingowin').children(':first-child').text();
