@@ -11,12 +11,6 @@ body {
   padding: 20px;
 }
 
-h3 {
-  text-align: center;
-  font-size: 28px;
-  margin-bottom: 20px;
-}
-
 /* Common styles for labels and form elements */
 label {
   font-weight: bold;
@@ -54,23 +48,13 @@ label {
 }
 
 #bingowin {
-  font-size: 28px;
-}
-
-/* Adjusts styles for screens smaller screens (phones) */
-@media (max-width: 768px) {
-  body {
-    font-size: 16px; /* Adjust the font size for better readability on small screens */
-  }
-
-  h3 {
-    font-size: 24px; /* Adjust the font size for better readability on mobile */
-  }
+  font-size: 25px;
 }
 
 /* Bingo-win scrolling */
 .list-container {
-  height: 85px; /* Set the desired height for the container (175 px)*/
+  /* height: 85px; Set the desired height for the container (175 px) */
+  height: 420px;
   overflow: hidden; /* Hide content that overflows the container */
   position: relative; /* Position property for absolute positioning */
 }
@@ -99,15 +83,26 @@ label {
 
 #card-container {
   margin-bottom: -25px;
+  margin-right: 10px;
 }
 
-/* #bingomessage-container {
+#bingomessage-container {
   flex: 1 1 auto;
+  /* width: 200px; */
   margin-top: 25px;
-} */
+  /* margin-right: 10px; */
+}
+
+#bingobutton {
+  width: 150px;
+}
 
 #chat-container {
   flex: 1 1 auto;
+  margin-top: 25px;
+}
+
+#chat-messages {
   margin-top: 25px;
 }
 
@@ -140,3 +135,15 @@ label {
   overflow-y: scroll;
   height: 100%;
 } */
+
+/* Adjusts styles for screens smaller screens (phones) */
+@media (max-width: 768px) {
+  body {
+    font-size: 16px; /* Adjust the font size for better readability on small screens */
+    /* color: green; */
+  }
+
+  .list-container {
+    height: 82px; /* Set the desired height for the container (175 px)*/
+  }
+}

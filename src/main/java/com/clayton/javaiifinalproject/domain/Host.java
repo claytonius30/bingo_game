@@ -53,7 +53,7 @@ public class Host
     	
     	for (String letter : letters)
     	{
-    		for (int i=0; i<1; i++)
+    		for (int i=0; i<3; i++)
     			allDrawNums.add(letter + " " + i);
     	}
     }

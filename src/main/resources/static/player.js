@@ -176,7 +176,8 @@ $(function () {
       // Listens for closed second web socket
       socket2.addEventListener('close', (event) => {
         console.log("Second WebSocket connection closed:", event);
-        $('#drawnnumber-container').hide();
+        // $('#drawnnumber-container').hide();
+        $('#drawing-container').hide()
         $('#connectionstatus2').show();
         // $('#reconnectbutton').show();
         $('#endgame-container').show();
@@ -278,10 +279,7 @@ $(function () {
             // displayNumber(drawnNumber);
             displayNumber(drawNumbers[drawNumbers.length - 1]);
           } else {
-
             drawNumbers.forEach(drawnNumber => {
-              
-            
               // Assigns drawn letter and number
               let letty = drawnNumber.slice(0, 1);
               let numby = parseInt(drawnNumber.slice(2, 4));
@@ -388,11 +386,13 @@ $(function () {
       socket3.addEventListener('message', (event) => {
         const previousWinData = JSON.parse(event.data);
         if (previousWinData.type === 'prevWinData') {
-          previousWinData.prevWins.forEach(win => {
-            $('#bingowin').append($('<div>').html(win));
-          });
-          count = previousWinData.winCount;
-          console.log("updated count: " + count);
+          if (count === 1) {
+            previousWinData.prevWins.forEach(win => {
+              $('#bingowin').append($('<div>').html(win));
+            });
+            count = previousWinData.winCount;
+            console.log("updated count: " + count);
+          }
         }
       });
 
@@ -459,7 +459,6 @@ $(function () {
       });
       
       // Listens for Bingo check messages
-      // socket2.addEventListener('message', (event) => {
       socket3.addEventListener('message', (event) => {
         const receivedMessage = JSON.parse(event.data);
         if (receivedMessage.type === 'bingoMessage') {
@@ -544,7 +543,8 @@ $(function () {
         console.log("Chat message received:", sender, content);
         const chatMessages = $('#chat-messages');
         const messageElement = $('<div>').html(`<strong>${sender}:</strong> ${content}`);
-        chatMessages.prepend(messageElement);;
+        chatMessages.prepend(messageElement);
+        $('.list-container').children().scrollTop(0);
       }
 
       // Displays drawn number
@@ -608,6 +608,8 @@ $(function () {
           winMessage.prepend($('<div>').html(`win#: ${count} - - - - - - -`));
           winMessage.prepend(winElement);
           count++;
+          // Scrolls to the top after adding a new bingo message
+          $('.list-container').children().scrollTop(0);
         } else {
           let noWinMessage = $('#bingocheck');
           const noWinElement = $('<div>').html(message);

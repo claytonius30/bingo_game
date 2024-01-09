@@ -51,25 +51,27 @@
   <div class="flex-section">
     <div id="card-container">
       <canvas id="bingo-card"></canvas><br><br>
-    <!-- </div> -->
-      <div id="bingomessage-container">
-        <label for="bingobutton">Press when there's a: </label>
-        <button type="button" id="bingobutton" name="bingobutton" class="buttons">BINGO</button>
-        <div class="check-container">
-          <div id="bingocheck"></div><br>
-        </div>
-        <div class="list-container">
-          <div id="bingowin" class="scrolling-list"></div><br>
-        </div>
+    </div>
+    <div id="bingomessage-container">
+      <label for="bingobutton">Press: </label>
+      <button type="button" id="bingobutton" name="bingobutton" class="buttons">BINGO</button>
+      <div class="check-container">
+        <div id="bingocheck"></div><br>
+      </div>
+      <div class="list-container">
+        <div id="bingowin" class="scrolling-list"></div><br>
       </div>
     </div>
+    <!-- </div> -->
   
     <div id="chat-container">
       <div id="chatmessage-container">
-          <input type="text" id="message-input" placeholder="Type your message...">
-          <button id="messagebutton">Send</button>
+        <input type="text" id="message-input" placeholder="Type your message...">
+        <button id="messagebutton">Send</button>
+        <div class="list-container">
+          <div id="chat-messages" class="scrolling-list"></div>
+        </div>
       </div>
-      <div id="chat-messages"></div>
     </div>
   </div>
 
