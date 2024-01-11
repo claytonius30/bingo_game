@@ -64,6 +64,7 @@ $(function () {
     } else if (window.location.href.indexOf("host-draw.html") > -1) {
       console.log("Host Draw page loaded");
 
+      $('#prevdrawn-container').hide();
       $('#endgame-container').hide();
       // $('#reconnectbutton-container').show();
 
@@ -121,7 +122,8 @@ $(function () {
       // Listens for closed second web socket
       socket2.addEventListener('close', (event) => {
         console.log("Second WebSocket connection closed:", event);
-        $('#drawnnumber-container').hide();
+        // $('#drawnnumber-container').hide();
+        $('#drawing-container').hide()
         $('#connectionstatus2').show();
         // $('#reconnectbutton').show();
         $('#endgame-container').show();   
@@ -208,6 +210,8 @@ $(function () {
       $('#resetgame').on('click', function () {
         $('#bingowin').empty();
         $('#drawnspace').empty();
+        $('#previousdraws').children(':gt(0)').remove();
+        $('#prevdrawn-container').hide();
         count = 1;
         $.get(`${backendUrl}/host/retart-game?hostName=${hostName}&gameId=${gameId}`, function(data) {
           let resetResponse = data;
@@ -278,8 +282,9 @@ $(function () {
             console.log(`Players link: ${playerNames}`);
             $('#players').children().remove();
             for (const name of playerNames) {
-              $('#players').append(`<li>${name}</li>`);
+              $('#players').prepend(`<li>${name}</li>`);
             }
+            $('#playerlist-scroll #players').scrollTop(0);
           } else {
             console.log("Players link: (no players joined)");
             $('#players').append(`<span>(no players joined)</span>`);
@@ -308,8 +313,9 @@ $(function () {
         const joinedPlayer = JSON.parse(event.data);
         if (joinedPlayer.type === 'player') {
           console.log("player joined:", event.data);
-          $("#players").append(`<li>${joinedPlayer.content}</li>`);
+          $("#players").prepend(`<li>${joinedPlayer.content}</li>`);
         }
+        $('#playerlist-scroll #players').scrollTop(0);
       });
 
       // Listens for draw numbers
@@ -370,6 +376,7 @@ $(function () {
         const chatMessages = $('#chat-messages');
         const messageElement = $('<div>').html(`<strong>${sender}:</strong> ${content}`);
         chatMessages.prepend(messageElement);
+        $('.list-container #chat-messages').scrollTop(0);
       }
 
       // Displays drawn number
@@ -377,6 +384,54 @@ $(function () {
         console.log("Displaying Draw Number:", content);
         const numberWindow = $('#drawnspace');
         numberWindow.text(content);
+
+        $('#previousdraws :first-child').prop('selected', true);
+        if (!content.includes("drawn")) {
+          fetch(`${backendUrl}/host/get-draw?hostName=${hostName}&gameId=${gameId}`)
+            .then(response => {
+              if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+              }
+              return response.json();
+            })
+            .then(data => {
+              let bingoNumbers = data;
+              let prevDraws = $('#previousdraws');
+              if (bingoNumbers.length === 1) {
+                $('#drawnspace').text(bingoNumbers[0]);
+              } else if (bingoNumbers.length > 1) {
+                $('#prevdrawn-container').show();
+                let elem = $("<option>");
+                elem.val(bingoNumbers[bingoNumbers.length - 2]).text(bingoNumbers[bingoNumbers.length - 2]);
+                prevDraws.children().eq(0).after(elem);
+                prevDraws.attr('size', 1);
+                prevDraws.on('mousedown', function () {
+                  // Sets a large size to show all options
+                  // if (prevDraws.children().length === 2) {
+                  //   $(this).attr('size', 2);
+                  // } else if (prevDraws.children().length > 2) {
+                  //   $(this).attr('size', 3);
+                  // }
+                  if (prevDraws.children().length < 19) {
+                    $(this).attr('size', bingoNumbers.length);
+                  } else if (prevDraws.children().length >= 19) {
+                    $(this).attr('size', 19);
+                  }
+                });
+                // Resets size when focus is lost (when clicking outside the select box)
+                prevDraws.on('blur', function () {
+                  // Sets size back to 1 to hide options
+                  $(this).attr('size', 1);
+                });
+              }
+            })
+            .catch(error => console.error('Error:', error));
+        } else {
+          $('#drawwords').hide();
+          $('#prevdrawn-container').hide();
+          $('#drawnspace').css('font-size', '37px');
+          $('#drawnnumber-container').css('width', '100%');
+        }
       }
 
       // Displays Bingo check messages
@@ -390,6 +445,7 @@ $(function () {
             bingoWinMessages.prepend(winElement);
             count++;
             bingoMessage = $('#bingowin').children(':first-child').text();
+            $('.list-container #bingowin').scrollTop(0);
           }
         } else {
           const noBingoMessages = $('#bingocheck');

@@ -18,9 +18,9 @@
 </head>
 
 <body>
-  <h1>Host Draw</h1>
-  <h2 id="hostsname"></h2>
-  <div id="socketstatus-container">
+  <h1>Host <span id="hostsname"></span></h1>
+  <!-- <h2 id="hostsname"></h2> -->
+  <!-- <div id="socketstatus-container"> -->
 
   <span id="connectionstatus1">***Chat message connection closed***<br></span>
   <span id="connectionstatus2">***Number drawing connection closed***<br></span>
@@ -33,18 +33,44 @@
 
   <div id="playerlist-container">
     <h2 id="playersheader"><a href="#" id="playersLink">Players:</a></h2>
-    <ul id="players"></ul>
+    <div id="playerlist-scroll">
+      <ul id="players" class="scrolling-list"></ul>
+    </div>
   </div>
   
-  <div id="drawnnumber-container">
-    <label for="drawnumber"><br>Press To Draw a number: </label>
-    <button type="button" id="drawnumber" name="drawnumber" class="buttons">Draw</button><br>
-    <h2><span id="drawnspace"></span></h2>
-  </div>
+  <div class="flex-section">
+    <div id="drawing-container" class="host-draw">
+      <div id="drawnnumber-container">
+        <label for="drawnumber"><br>Press To: </label>
+        <button type="button" id="drawnumber" name="drawnumber" class="buttons">Draw Number</button><br>
+        <h2><span id="drawnspace"></span></h2>
+      </div>
+      <div id="prevdrawn-container">
+        <select id="previousdraws" name="previousdraws">
+          <option value="none" selected>Previous Draws:</option>
+        </select>
+      </div>
+    </div><br><br><br>
 
-  <div id="bingomessage-container">
-    <div id="bingocheck"></div><br>
-    <h2><div id="bingowin"></div></h2><br>
+    <div id="bingomessage-container" class="host-containers">
+      <div id="check-container">
+        <div id="bingocheck"></div><br>
+      </div>
+      <!-- <h2><div id="bingowin"></div></h2><br> -->
+      <div class="list-container">
+        <div id="bingowin" class="scrolling-list"></div><br>
+      </div>
+    </div>
+  
+    <div id="chat-container" class="host-containers">
+      <div id="chatmessage-container">
+        <input type="text" id="message-input" placeholder="Type your message...">
+        <button id="messagebutton">Send</button>
+        <div class="list-container">
+          <div id="chat-messages" class="scrolling-list"></div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div id="endgame-container">
@@ -52,20 +78,12 @@
     <button type="button" id="gotohomepage">Return to Homepage</button><br><br>
   </div>
 
-  <div id="chat-container">
-    <div id="chatmessage-container">
-        <input type="text" id="message-input" placeholder="Type your message...">
-        <button id="messagebutton">Send</button>
-    </div>
-    <div id="chat-messages"></div>
-  </div>
-
   <div id="stopgame-container">
-    <label for="resetgame"><br><br>Press To Restart Game: </label>
-    <button type="button" id="resetgame" name="resetgame" class="buttons">RESET</button><br><br>
+    <label for="resetgame"><br><br>Press To: </label>
+    <button type="button" id="resetgame" name="resetgame" class="buttons">RESET Game</button><br><br>
   
-    <label for="endgame">Press To End Game: </label>
-    <button type="button" id="endgame" name="endgame" class="buttons">STOP</button>
+    <label for="endgame">Press To: </label>
+    <button type="button" id="endgame" name="endgame" class="buttons">STOP Game</button>
   </div>
   
   

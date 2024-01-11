@@ -470,10 +470,6 @@ $(function () {
           // }
           setTimeout(function(){
             $('#bingocheck').empty();
-            // let noWinMessage = $('#bingocheck');
-            // const noWinElement = $('<div>').text(".");
-            // noWinMessage.prepend(noWinElement);
-            // $('#bingocheck').text(".");
           }, 2000);
         }
       });
@@ -544,7 +540,7 @@ $(function () {
         const chatMessages = $('#chat-messages');
         const messageElement = $('<div>').html(`<strong>${sender}:</strong> ${content}`);
         chatMessages.prepend(messageElement);
-        $('.list-container').children().scrollTop(0);
+        $('.list-container #chat-messages').scrollTop(0);
       }
 
       // Displays drawn number
@@ -553,7 +549,6 @@ $(function () {
         const numberWindow = $('#drawnspace');
         numberWindow.text(content);
         $('#previousdraws :first-child').prop('selected', true);
-          
         if (!content.includes("drawn")) {
           fetch(`${backendUrl}/player/get-draw?hostName=${hostName}&playerName=${playerName}`)
             .then(response => {
@@ -609,7 +604,7 @@ $(function () {
           winMessage.prepend(winElement);
           count++;
           // Scrolls to the top after adding a new bingo message
-          $('.list-container').children().scrollTop(0);
+          $('.list-container #bingowin').scrollTop(0);
         } else {
           let noWinMessage = $('#bingocheck');
           const noWinElement = $('<div>').html(message);

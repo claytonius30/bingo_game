@@ -41,7 +41,7 @@ label {
   font-size: 20px;
 }
 
-/* Styles for drawn number */
+/* Styles for drawn number, bingo message, chat message */
 #drawnspace {
   font-weight: bold;
   font-size: 40px;
@@ -51,7 +51,18 @@ label {
   font-size: 25px;
 }
 
-/* Bingo-win scrolling */
+#chat-messages {
+  font-size: 18px;
+}
+
+/* Player list scrolling */
+#playerlist-scroll {
+  height: 65px;
+  overflow: hidden; /* Hide content that overflows the container */
+  position: relative; /* Position property for absolute positioning */
+}
+
+/* Bingo-win/chat-message scrolling */
 .list-container {
   /* height: 85px; Set the desired height for the container (175 px) */
   height: 420px;
@@ -67,7 +78,7 @@ label {
 }
 
 /* Non-win message static */
-.check-container {
+#check-container {
   height: 21px; /* Set the desired height for the container */
   overflow: hidden; /* Hide content that overflows the container */
   position: relative; /* Position property for absolute positioning */
@@ -86,28 +97,26 @@ label {
   margin-right: 10px;
 }
 
-#bingomessage-container {
+#bingomessage-container, #chat-container {
   flex: 1 1 auto;
-  /* width: 200px; */
   margin-top: 25px;
-  /* margin-right: 10px; */
 }
 
-#bingobutton {
+/* bingo/draw buntton style */
+#bingobutton, #drawnumber, .buttons {
   width: 150px;
 }
 
-#chat-container {
+/* #chat-container {
   flex: 1 1 auto;
   margin-top: 25px;
-}
+} */
 
-#chat-messages {
-  margin-top: 25px;
+#messagebutton {
+  margin-bottom: 21px;
 }
 
 /* Flex container drawings */
-
 #drawing-container {
   width: 345px;
   height: 36px;
@@ -121,20 +130,11 @@ label {
 
 #prevdrawn-container {
   width: 25%;
-  /* height: 21px; Set the desired height for the container */
-  /* overflow: hidden; Hide content that overflows the container */
-  /* position: relative; Position property for absolute positioning */
-  /* height: 15px;
-  overflow: hidden;
-  position: relative; */
 }
 
-/* #previousdraws {
-  padding: 0;
-  margin: 0;
-  overflow-y: scroll;
-  height: 100%;
-} */
+.host-containers {
+  width: auto;
+}
 
 /* Adjusts styles for screens smaller screens (phones) */
 @media (max-width: 768px) {
@@ -142,8 +142,27 @@ label {
     font-size: 16px; /* Adjust the font size for better readability on small screens */
     /* color: green; */
   }
+}
 
-  .list-container {
+@media (max-width: 646px) {
+  #bingomessage-container .list-container {
     height: 82px; /* Set the desired height for the container (175 px)*/
+  }
+  
+  .host-draw {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-flow: row wrap;
+    flex-flow: row wrap;
+  }
+
+  .host-containers {
+    width: 100%;
+  }
+}
+
+@media (max-width: 938px) {
+  #chat-container .list-container {
+    height: 82px;
   }
 }
