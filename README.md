@@ -1,19 +1,33 @@
-1.	What is the purpose and benefits of the application or system
+Clayton DeSimone
 
-I will create a Bingo game that I can serve as a web application. The purpose is to allow a facilitator who is hosting a bingo night/tournament to use the webapp to connect with players’ devices. The players’ devices will act as their virtual bingo cards that they can interact with by selecting the called bingo numbers. The players’ interaction is visible to the facilitator on their device, who is in charge of keeping track of the winner(s). The app will also have the option for the facilitator to play against other simulated, or real players who join their group online through the app.
+Challenge:
+Design a web application that allows a host and players to play Bingo online, removing the need to meet 
+in person in order to play.
 
-2.	Who are the anticipated users
+Context:
+For the final project in my Java II class I needed to create some type of application. I decided to create 
+a web app to allow the ability to facilitate a Bingo game or tournament online so players can play virtually 
+with one another using a tablet, smart phone, or desktop computer. I also wanted to include the ability for 
+players and host to chat with each other through the app, similar to instant messaging, in order to allow 
+communication throughout the game.
 
-Anticipated users would be anyone seeking to host a bingo event using an online platform; also, for anyone wanting to play a virtual bingo game online with other real or simulated players.
+Action:
+Using Java for the server-side logic, I created several classes including: Player, Host, BingoCard, and 
+GameSession. Using Spring MVC, I also created BingoController to control HTTP requests endpoints, as well as 
+a BingoService class to control each game session (for initial game setup, reset, and end-of-game logic). 
+I used the Web Socket API for the interaction between players and host (such as the chat, drawn number updates, 
+and updates if someone scored a bingo), which required its own WebSocketController class and a WebSocketConfig 
+class for web socket endpoints. For the client-side, I used Visual Studio to run Javascript, CSS, and HTML.
 
-3.	What type of application is it (desktop, web, mobile, web service, other)
+In order to serve the application I used a DigitalOcean droplet using an Ubuntu server.
 
-This will be a web application.
+Result:
+By the end of the semester, I successfully completed the app and was able to run the server and play a Bingo 
+game with my class on our last day. The game was a success without any errors that stopped us from completing 
+the game. I was able to use this opportunity to take notes and further improve the game based on suggestions 
+from my classmates.
 
-4.	What components or subprojects do you anticipate to build (web api, JavaScript)
-
-I will be using Java on the backend to handle the logic of the game while interacting with JavaScript, HTML and CSS on the client-side. For communication between the front-end and back-end I will use Axios to make HTTP requests.
-
-5.	What technologies are you considering for inclusion? This could change moving forward to draft 1.
-
-I am envisioning using Canvas with JavaScript to provide visual representation of an interactive bingo card. One possibility is Vue Konva, which is a JavaScript library that allows drawing Canvas graphics using Vue.
+Reflection:
+I learned how much is involved in running a web app that interacts with different participants on their own devices 
+and the many ways to facilitate interaction. I learned to appreciate the importance of using REST services and how to 
+efficiently direct communication between the server and client-side using HTTP requests.
