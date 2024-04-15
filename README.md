@@ -1,4 +1,4 @@
-Clayton DeSimone
+# CCARR
 
 Challenge:
 Design a web application that allows a host and players to play Bingo online, removing the need to meet 
@@ -31,3 +31,20 @@ Reflection:
 I learned how much is involved in running a web app that interacts with different participants on their own devices 
 and the many ways to facilitate interaction. I learned to appreciate the importance of using REST services and how to 
 efficiently direct communication between the server and client-side using HTTP requests.
+
+## Hosting the application
+
+Followed instructions for deploying a droplet (virtual machine) on DigitalOcean: https://blog.devops.dev/how-to-deploy-spring-boot-application-to-digital-ocean-droplet-e00ca0e4d433
+
+## Launching app using MobaXterm
+
+![image](https://github.com/claytonius30/bingo_game/assets/116747177/0c2008c9-cb61-47c8-9827-bd2a3a1dd3a2)
+
+## Landing page for bingo.consulogic.org
+
+![image](https://github.com/claytonius30/bingo_game/assets/116747177/b575ab86-381c-495e-afe9-d320a70f2ba6)
+
+## Host and Player gameplay screenshot
+
+![image](https://github.com/claytonius30/bingo_game/assets/116747177/c9743ec9-5754-496e-a3b6-97b32b7aa9c4)
+
