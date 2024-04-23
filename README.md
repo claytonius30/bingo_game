@@ -1,4 +1,6 @@
-# CCARR
+# Bingo Game
+
+My Bingo game I created as a web app.
 
 Challenge:
 Design a web application that allows a host and players to play Bingo online, removing the need to meet 
